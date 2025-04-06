@@ -8,7 +8,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 class MyUserManager(BaseUserManager):
     def create_user(self, phone, password=None):
         """
-        Creates and saves a User with the given email, date of
+        Creates and saves a User with the given phone, date of
         birth and password.
         """
         if not phone:
@@ -22,15 +22,14 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, phone, password=None):
+    def create_superuser(self, phone, password=None ):
         """
-        Creates and saves a superuser with the given email, date of
+        Creates and saves a superuser with the given phone, date of
         birth and password.
         """
         user = self.create_user(
-            email,
+            phone,
             password=password,
-            phone=phone,
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -38,11 +37,8 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
+    phone = models.CharField(max_length=11, unique=True)
 
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=11  , unique=True)
-
-    
     is_active = models.BooleanField(default=True)
     is_Doctor = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -50,7 +46,6 @@ class MyUser(AbstractBaseUser):
     objects = MyUserManager()
 
     USERNAME_FIELD = "phone"
-    REQUIRED_FIELDS = ["phone"]
 
     def __str__(self):
         return self.phone

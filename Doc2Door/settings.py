@@ -68,6 +68,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Doc2Door.wsgi.application'
+AUTH_USER_MODEL = "app.MyUser"
 
 
 # Database
