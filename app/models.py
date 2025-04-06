@@ -38,6 +38,8 @@ class MyUserManager(BaseUserManager):
 
 class MyUser(AbstractBaseUser):
     phone = models.CharField(max_length=11, unique=True)
+    verify_code = models.CharField(max_length=11)
+    
 
     is_active = models.BooleanField(default=True)
     is_Doctor = models.BooleanField(default=False)

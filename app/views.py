@@ -5,6 +5,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import * 
+import random
+from kavenegar import *
+
 
 # Create your views here.
 def Home(request):
@@ -58,3 +61,49 @@ def Register(request):
 def Logout_view(request):
     logout(request)
     return redirect('app:home')
+
+
+
+@login_required(login_url='/login/')
+def login_phone(request):
+    if request.method == 'POST':
+        form = LoginPhoneForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            global phone, random_code
+            phone = f"{data['phone']}"
+            random_code = random.randint(1000, 9999)
+            sms = KavenegarAPI(
+                "************")# 
+            params = {
+                'sender': '10003330033033',  # 10003330033033
+                'receptor': phone,  # 
+                'message': f' {random_code} سلام این اولین تست است ',
+            }
+            response = sms.sms_send(params)
+            return redirect('app:verify_login_phone')
+    else:
+        form = LoginPhoneForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'app/phone/login-phone.html', context)
+
+
+def verify_login_phone(request):
+    if request.method == 'POST':
+        form = CodePhoneForm(request.POST)
+        if form.is_valid():
+            if str(random_code) == form.cleaned_data['verify_code']:
+                profile = MyUser.objects.filter(user_id=request.user.id).update(phone=phone)
+                global verify
+                verify = True
+                return redirect('app:login')
+            else:
+                messages.error(request, 'کد وارد شده اشتباه است')
+    else:
+        form = CodePhoneForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'app/phone/verify-login-phone.html', context)

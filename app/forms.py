@@ -20,4 +20,15 @@ class UserCreateForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+class LoginPhoneForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ['phone']
+
+        
+class CodePhoneForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ['verify_code']
 
