@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>هوم‌ویزیت | خدمات درمانی در منزل</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      color: #333;
+      overflow-x: hidden;
+      animation: fadeIn 1.5s ease-in-out;
+      line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      background: linear-gradient(135deg, #009688, #004d40);
+      color: white;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 77, 64, 0.3);
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to left, #ffd600, #009688);
+      animation: rainbow 8s linear infinite;
+    }
+
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .header-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #ffd600, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      animation: slideIn 0.8s ease-out;
+    }
+
+    @keyframes slideIn {
+      0% { transform: translateX(-50px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 2px;
+      background: #ffd600;
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ffd600;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    nav a:hover::before {
+      width: 100%;
+      right: auto;
+      left: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 4rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1.2rem;
+      box-shadow: 0 10px 30px rgba(0, 150, 136, 0.15);
+      width: 320px;
+      padding: 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(0, 150, 136, 0.1);
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to left, #009688, #004d40);
+      transition: all 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 150, 136, 0.25);
+    }
+
+    .card:hover::after {
+      height: 8px;
+      background: linear-gradient(to left, #ffd600, #009688);
+    }
+
+    .card i {
+      font-size: 3.5rem;
+      color: #009688;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      text-shadow: 0 4px 10px rgba(0, 150, 136, 0.2);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+    }
+
+    .card h2 {
+      color: #00796b;
+      margin-bottom: 1.2rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+
+    .card h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      right: 0;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(to right, #009688, #004d40);
+      border-radius: 3px;
+      transition: all 0.4s ease;
+    }
+
+    .card:hover h2::after {
+      width: 100%;
+      background: linear-gradient(to right, #ffd600, #009688);
+    }
+
+    .card p {
+      line-height: 1.8;
+      color: #555;
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+      text-align: justify;
+    }
+
+    .card button {
+      margin-top: 1rem;
+      background: linear-gradient(135deg, #009688, #004d40);
+      border: none;
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 150, 136, 0.3);
+      z-index: 1;
+    }
+
+    .card button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(135deg, #004d40, #009688);
+      transition: all 0.4s ease;
+      z-index: -1;
+    }
+
+    .card button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 150, 136, 0.4);
+    }
+
+    .card button:hover::before {
+      width: 100%;
+      right: auto;
+      left: 0;
+    }
+
+    .info-section {
+      background: url('https://www.transparenttextures.com/patterns/cubes.png'),
+                  linear-gradient(135deg, #e0f2f1, #ffffff);
+      padding: 5rem 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .info-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(to left, #009688, #004d40, #ffd600);
+      animation: rainbow 8s linear infinite;
+    }
+
+    .info-section h2 {
+      font-size: 2.5rem;
+      color: #00796b;
+      margin-bottom: 3rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+      animation: fadeIn 1s ease;
+    }
+
+    .info-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      right: 0;
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(to right, #009688, #004d40);
+      border-radius: 4px;
+    }
+
+
+
+
+    @keyframes underline {
+      0%, 100% { width: 120px; }
+      50% { width: 150px; }
+    }
+
+    .info-box {
+      background: rgba(255, 255, 255, 0.95);
+      margin: 0 auto 2.5rem;
+      max-width: 900px;
+      border-left: 6px solid #009688;
+      box-shadow: 0 10px 30px rgba(0, 150, 136, 0.1);
+      padding: 2.5rem;
+      border-radius: 1rem;
+      text-align: right;
+      transition: all 0.4s ease;
+      border: 1px solid rgba(0, 150, 136, 0.1);
+      animation: fadeInUp 0.8s ease forwards;
+      animation-delay: calc(var(--order) * 0.1s);
+    }
+
+    .info-box:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 150, 136, 0.2);
+      border-left: 6px solid #ffd600;
+    }
+
+    .info-box h3 {
+      color: #004d40;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      position: relative;
+      padding-right: 1.5rem;
+    }
+
+    .info-box h3::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 10px;
+      background: #009688;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translateY(-50%) scale(1); }
+      50% { transform: translateY(-50%) scale(1.2); }
+    }
+
+    .info-box p {
+      line-height: 1.9;
+      text-align: justify;
+      color: #555;
+      font-weight: 300;
+      font-size: 1.05rem;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      background: linear-gradient(135deg, #004d40, #002d26);
+      color: white;
+      padding: 4rem 1.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(to left, #009688, #ffd600);
+      animation: rainbow 8s linear infinite;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-box {
+      flex: 1 1 250px;
+    }
+
+    .footer-box h4 {
+      border-bottom: 2px solid #26a69a;
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffd600;
+      position: relative;
+    }
+
+    .footer-box h4::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      right: 0;
+      width: 50px;
+      height: 2px;
+      background: #ffd600;
+      transition: all 0.3s ease;
+    }
+
+    .footer-box:hover h4::after {
+      width: 100%;
+    }
+
+    .footer-box ul {
+      list-style: none;
+    }
+
+    .footer-box ul li {
+      margin-bottom: 1rem;
+      position: relative;
+      padding-right: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .footer-box ul li::before {
+      content: '→';
+      position: absolute;
+      right: 0;
+      color: #26a69a;
+      transition: all 0.3s ease;
+    }
+
+    .footer-box ul li:hover {
+      transform: translateX(-5px);
+    }
+
+    .footer-box ul li:hover::before {
+      color: #ffd600;
+      transform: translateX(5px);
+    }
+
+    .footer-box ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 300;
+      transition: all 0.3s ease;
+    }
+
+    .footer-box ul li a:hover {
+      color: #ffd600;
+    }
+
+    .social-icons {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-icons a {
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      background: #ffd600;
+      color: #004d40;
+      transform: translateY(-5px) rotate(10deg);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 300;
+      position: relative;
+    }
+
+    .footer-bottom::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 50%;
+      transform: translateX(50%);
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #26a69a, transparent);
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+      }
+
+      header h1 {
+        font-size: 2.2rem;
+      }
+
+      .info-section h2 {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      nav a {
+        width: 100%;
+        text-align: center;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .info-box {
+        padding: 1.5rem;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <nav>
+        <a href="#">خانه</a>
+        <a href="#">خدمات</a>
+        <a href="#">تماس با ما</a>
+      </nav>
+      <h1>سامانه هوم‌ویزیت</h1>
+    </div>
+  </header>
+
+  <section class="container">
+    <div class="card" style="--order: 1">
+      <i class="fas fa-user-md"></i>
+      <h2>پزشک عمومی</h2>
+      <p>دریافت ویزیت در منزل توسط پزشکان عمومی مجرب، تشخیص، معاینه و تجویز دارو با استانداردهای حرفه‌ای. خدمات ما با بالاترین کیفیت و توسط متخصصان باتجربه ارائه می‌شود.</p>
+      <button>رزرو آنلاین</button>
+    </div>
+    <div class="card" style="--order: 2">
+      <i class="fas fa-user-nurse"></i>
+      <h2>پرستاری</h2>
+      <p>ارائه خدمات پرستاری حرفه‌ای در منزل شامل تزریقات، پانسمان، مراقبت بیمار و چکاپ‌های منظم روزانه. پرستاران ما با حوصله و دقت بالا خدمات را ارائه می‌دهند.</p>
+      <button>رزرو آنلاین</button>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <h2>چرا هوم‌ویزیت؟</h2>
+
+    <div class="info-box" style="--order: 1">
+      <h3>سریع، مطمئن و همیشه در دسترس</h3>
+      <p>با چند کلیک ساده از طریق موبایل یا کامپیوتر، می‌توانید در کمترین زمان پزشک یا پرستار مورد نظر خود را به خانه دعوت کنید. ما همیشه همراه شماییم؛ حتی در روزهای تعطیل. سامانه ما 24 ساعته آماده خدمت‌رسانی به شما عزیزان می‌باشد.</p>
+    </div>
+
+    <div class="info-box" style="--order: 2">
+      <h3>پوشش کامل خدمات</h3>
+      <p>از مراقبت سالمندان، بیماران خاص، خدمات اورژانسی تا چکاپ‌های دوره‌ای و آزمایشات در منزل. ما مجموعه‌ای جامع از خدمات درمانی را در دسترس شما قرار می‌دهیم. هر نیاز درمانی که داشته باشید، ما پاسخگوی شما خواهیم بود.</p>
+    </div>
+
+    <div class="info-box" style="--order: 3">
+      <h3>امنیت، کیفیت، اعتماد</h3>
+      <p>تمامی متخصصان هوم‌ویزیت دارای مجوزهای رسمی و سابقه درخشان در حوزه سلامت هستند. اطلاعات شما محرمانه باقی می‌ماند و خدمات با بالاترین کیفیت انجام می‌شود. ما اعتماد شما را با ارائه خدمات حرفه‌ای جلب خواهیم کرد.</p>
+    </div>
+
+    <div class="info-box" style="--order: 4">
+      <h3>تجربه‌ای نوین از درمان در خانه</h3>
+      <p>ما اینجاییم تا استرس و سختی رفت‌وآمد، انتظار در صف‌های درمانگاه و نگرانی‌های ناشی از ازدحام را حذف کنیم. هوم‌ویزیت، تجربه‌ای از آرامش، در امنیت خانه شماست. درمان در محیط آشنا و بدون استرس خانه شما.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-box">
+        <h4>لینک‌های سریع</h4>
+        <ul>
+          <li><a href="#">صفحه اصلی</a></li>
+          <li><a href="#">خدمات ما</a></li>
+          <li><a href="#">درباره ما</a></li>
+          <li><a href="#">ارتباط با ما</a></li>
+        </ul>
+      </div>
+      <div class="footer-box">
+        <h4>اطلاعات تماس</h4>
+        <ul>
+          <li>تلفن: 021-12345678</li>
+          <li>ایمیل: info@homevisit.com</li>
+          <li>آدرس: نیشابور</li>
+        </ul>
+      </div>
+      <div class="footer-box">
+        <h4>دنبال‌مان کنید</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © تمامی حقوق متعلق به سامانه هوم‌ویزیت است
+    </div>
+  </footer>
+
+</body>
+</html>

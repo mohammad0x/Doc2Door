@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>هوم‌ویزیت | خدمات درمانی در منزل</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      color: #333;
+      overflow-x: hidden;
+      animation: fadeIn 3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    header {
+      background: linear-gradient(to left, #009688, #004d40);
+      color: white;
+      padding: 30px 20px;
+      position: relative;
+      overflow: hidden;
+      animation: slideIn 2s ease-out;
+    }
+
+    @keyframes slideIn {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(0); }
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 200%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+      animation: shimmer 8s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(100%); }
+    }
+
+    .header-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.8rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      animation: zoomIn 1.5s ease-out;
+    }
+
+    @keyframes zoomIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ffd600;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 60px 20px 30px;
+      animation: slideUp 1.5s ease-in-out;
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 150, 136, 0.2);
+      width: 300px;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 16px 30px rgba(0, 150, 136, 0.4);
+    }
+
+    .card i {
+      font-size: 40px;
+      color: #009688;
+      margin-bottom: 15px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .card h2 {
+      color: #00796b;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      line-height: 1.7;
+    }
+
+    .card button {
+      margin-top: 20px;
+      background: #009688;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .card button:hover {
+      background: #00796b;
+    }
+
+    .info-section {
+      background: url('https://www.transparenttextures.com/patterns/cubes.png'), linear-gradient(to bottom, #e0f2f1, #ffffff);
+      padding: 70px 20px;
+      text-align: center;
+    }
+
+    .info-section h2 {
+      font-size: 2.2rem;
+      color: #00796b;
+      margin-bottom: 40px;
+    }
+
+    .info-box {
+      background: rgba(255, 255, 255, 0.85);
+      margin: 0 auto 30px;
+      max-width: 900px;
+      border-left: 6px solid #009688;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+      padding: 25px 30px;
+      border-radius: 12px;
+      text-align: right;
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .info-box h3 {
+      color: #004d40;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .info-box p {
+      line-height: 1.9;
+      text-align: justify;
+      margin: 0;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      background: #004d40;
+      color: white;
+      padding: 40px 20px;
+      font-size: 0.95rem;
+      margin-top: 60px;
+      animation: fadeIn 2s ease-out;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .footer-box {
+      flex: 1 1 250px;
+    }
+
+    .footer-box h4 {
+      border-bottom: 2px solid #26a69a;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    .footer-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-box ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-box ul li a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-box ul li a:hover {
+      color: #ffd600;
+    }
+
+    .social-icons {
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      color: white;
+      margin-left: 10px;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #ffd600;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 15px;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        width: 90%;
+      }
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        justify-content: flex-start;
+        margin-top: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      nav a {
+        display: block;
+        margin: 8px 0;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <nav>
+        <a href="#">خانه</a>
+        <a href="#">خدمات</a>
+        <a href="#">تماس با ما</a>
+      </nav>
+        <h1>سامانه هوم‌ویزیت</h1>
+    </div>
+  </header>
+
+  <section class="container">
+    <div class="card">
+      <i class="fas fa-user-md"></i>
+      <h2>پزشک عمومی</h2>
+      <p>دریافت ویزیت در منزل توسط پزشکان عمومی مجرب، تشخیص، معاینه و تجویز دارو با استانداردهای حرفه‌ای.</p>
+      <button>رزرو</button>
+    </div>
+    <div class="card">
+      <i class="fas fa-user-nurse"></i>
+      <h2>پرستاری</h2>
+      <p>ارائه خدمات پرستاری حرفه‌ای در منزل شامل تزریقات، پانسمان، مراقبت بیمار و چکاپ‌های منظم روزانه.</p>
+      <button>رزرو</button>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <h2>چرا هوم‌ویزیت؟</h2>
+
+    <div class="info-box">
+      <h3>سریع، مطمئن و همیشه در دسترس</h3>
+      <p>با چند کلیک ساده از طریق موبایل یا کامپیوتر، می‌توانید در کمترین زمان پزشک یا پرستار مورد نظر خود را به خانه دعوت کنید. ما همیشه همراه شماییم؛ حتی در روزهای تعطیل.</p>
+    </div>
+
+    <div class="info-box">
+      <h3>پوشش کامل خدمات</h3>
+      <p>از مراقبت سالمندان، بیماران خاص، خدمات اورژانسی تا چکاپ‌های دوره‌ای و آزمایشات در منزل. ما مجموعه‌ای جامع از خدمات درمانی را در دسترس شما قرار می‌دهیم.</p>
+    </div>
+
+    <div class="info-box">
+      <h3>امنیت، کیفیت، اعتماد</h3>
+      <p>تمامی متخصصان هوم‌ویزیت دارای مجوزهای رسمی و سابقه درخشان در حوزه سلامت هستند. اطلاعات شما محرمانه باقی می‌ماند و خدمات با بالاترین کیفیت انجام می‌شود.</p>
+    </div>
+
+    <div class="info-box">
+      <h3>تجربه‌ای نوین از درمان در خانه</h3>
+      <p>ما اینجاییم تا استرس و سختی رفت‌وآمد، انتظار در صف‌های درمانگاه و نگرانی‌های ناشی از ازدحام را حذف کنیم. هوم‌ویزیت، تجربه‌ای از آرامش، در امنیت خانه شماست.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-box">
+        <h4>لینک‌های سریع</h4>
+        <ul>
+          <li><a href="#">صفحه اصلی</a></li>
+          <li><a href="#">خدمات ما</a></li>
+          <li><a href="#">درباره ما</a></li>
+          <li><a href="#">ارتباط با ما</a></li>
+        </ul>
+      </div>
+      <div class="footer-box">
+        <h4>اطلاعات تماس</h4>
+        <ul>
+          <li>تلفن: 021-12345678</li>
+          <li>ایمیل: info@homevisit.com</li>
+          <li>آدرس: تهران، خیابان سلامت، پلاک ۱۰</li>
+        </ul>
+      </div>
+      <div class="footer-box">
+        <h4>دنبال‌مان کنید</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-telegram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © تمامی حقوق متعلق به سامانه هوم‌ویزیت است | طراحی شده با عشق و حرفه‌ای‌گری
+    </div>
+  </footer>
+
+</body>
+</html>

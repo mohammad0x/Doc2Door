@@ -11,7 +11,7 @@ from kavenegar import *
 
 # Create your views here.
 def Home(request):
-    return render(request , 'app/home.html')
+    return render(request, 'app/home/home.html')
 
 def Login(request):
     if request.user.is_authenticated:
@@ -64,7 +64,7 @@ def Logout_view(request):
 
 
 
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def login_phone(request):
     if request.method == 'POST':
         form = LoginPhoneForm(request.POST)
