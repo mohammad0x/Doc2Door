@@ -29,7 +29,7 @@ def login_phone(request):
         phone = request.POST.get('phone')
         random_code = random.randint(1000, 9999)
         sms = KavenegarAPI(
-            "65506D4C414E3873434C4A54377862786272764342653867506E46792B2B4F624849494C5269645A66486F3D")  #
+            "**********************")  #
         params = {
             'sender': '2000660110',
             'receptor': phone,  # 
@@ -86,7 +86,7 @@ def login_phone_doctor(request):
         phone = request.POST.get('phone')
         random_code = random.randint(1000, 9999)
         sms = KavenegarAPI(
-            "65506D4C414E3873434C4A54377862786272764342653867506E46792B2B4F624849494C5269645A66486F3D")  #
+            "****************")  #
         params = {
             'sender': '2000660110',
             'receptor': phone,  # 
