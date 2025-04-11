@@ -3,10 +3,13 @@ from django.db import models
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, phone, password=None):
+    def create_user(self, phone, **extra_fields):
         """
         Creates and saves a User with the given phone, date of
         birth and password.
@@ -16,13 +19,14 @@ class MyUserManager(BaseUserManager):
 
         user = self.model(
             phone=phone,
+            **extra_fields
         )
 
-        user.set_password(password)
+        user.set_unusable_password()  # Since we’re not using passwords
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, password=None ):
+    def create_superuser(self, phone, password=None):
         """
         Creates and saves a superuser with the given phone, date of
         birth and password.
@@ -39,7 +43,6 @@ class MyUserManager(BaseUserManager):
 class MyUser(AbstractBaseUser):
     phone = models.CharField(max_length=11, unique=True)
     verify_code = models.CharField(max_length=11)
-    
 
     is_active = models.BooleanField(default=True)
     is_Doctor = models.BooleanField(default=False)
@@ -67,3 +70,24 @@ class MyUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(MyUser, on_delete=models.CASCADE, related_name="Profile")
+    first_name = models.CharField(max_length=50, blank=True, null=False, verbose_name="نام")
+    last_name = models.CharField(max_length=50, blank=True, null=False, verbose_name="نام خانوادگی")
+    nationality_code = models.CharField(max_length=10, blank=True, null=True, verbose_name="کد ملی")
+    personal_code = models.CharField(max_length=5, blank=True, null=False, verbose_name="کد نظام پزشکی")
+    date_of_birth = models.CharField(max_length=8, blank=True, null=False, verbose_name="تاریخ تولد")
+    city = models.CharField(max_length=70, blank=True, null=False, verbose_name="شهر")
+    address = models.CharField(max_length=200, blank=True, null=False, verbose_name="آدرس")
+    photo = models.ImageField(upload_to='face/', verbose_name="عکس")
+    nationality_photo = models.ImageField(upload_to='nationality/', verbose_name="عکس کارت ملی")
+    personal_photo = models.ImageField(upload_to='personal/', verbose_name="عکس کارت پرسنلی")
+
+
+@receiver(post_save, sender=MyUser)
+def save_profile_user(sender, instance, created, **kwargs):
+    if created and instance.is_Doctor:
+        profile_user = Profile(user=instance)
+        profile_user.save()

@@ -9,7 +9,11 @@
     <form method="post">
         {% csrf_token %}
         <p>
-          phone:  <input type="text" name="phone">
+           Verify: <input type="text" name="verify_code">
+        </p>
+        <p>
+            <label for="">is Doctor?</label>
+            <input type="checkbox" name="is_Doctor" value="True">
         </p>
         <p>
             <input type="submit">

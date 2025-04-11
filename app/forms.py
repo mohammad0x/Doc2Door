@@ -24,11 +24,16 @@ class UserCreateForm(forms.ModelForm):
 class LoginPhoneForm(forms.ModelForm):
     class Meta:
         model = MyUser
-        fields = ['phone']
+        fields = ('phone',)
 
         
 class CodePhoneForm(forms.ModelForm):
     class Meta:
         model = MyUser
         fields = ['verify_code']
+
+class CodePhoneDoctorForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        fields = ['verify_code' , 'is_Doctor']
 

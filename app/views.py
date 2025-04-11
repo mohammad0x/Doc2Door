@@ -10,92 +10,61 @@ from kavenegar import *
 
 
 # Create your views here.
+@login_required(login_url='/loginPhone/')
 def Home(request):
     return render(request , 'app/home.html')
 
-def Login(request):
+
+@login_required(login_url='/loginPhone/')
+def Logout_view(request):
+    logout(request)
+    return redirect('app:loginPhone')
+
+
+
+def login_phone(request):
     if request.user.is_authenticated:
         return redirect('app:home')
     if request.method == 'POST':
+        global phone, random_code
         phone = request.POST.get('phone')
-        password = request.POST.get('password')
-        user = authenticate(request, phone=phone, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("app:home")
-        else:
-            context = {
-                "phone": phone,
-                "errormessage": "User not found"
-            }
-            return render(request, "app/login.html", context)
-    else:
-        return render(request, 'app/login.html', {})
-
-
-def Register(request):
-    if request.user.is_authenticated:
-        return redirect('app:login')
-    if request.method == 'POST':
-        form = UserCreateForm(request.POST)
-        phone = form['phone'].value()
-        if MyUser.objects.filter(phone=phone).exists():
-            messages.error(request, 'شماره  شما تکراری است.')
-            return redirect('app:register')
- 
-        if form.is_valid():
-            data = form.cleaned_data
-            user = MyUser.objects.create_user(phone=data['phone'],  password=data['password'])
-            user.save()
-            return redirect('app:login')
-        else:
-            messages.error(request, 'Something is wrong! Please try again', 'danger')
-    else:
-        form = UserCreateForm()
-    context = {'form': form}
-    return render(request, 'register/register.html')
-
-
-
-@login_required(login_url='/login/')
-def Logout_view(request):
-    logout(request)
-    return redirect('app:home')
-
-
-
-@login_required(login_url='/login/')
-def login_phone(request):
-    if request.method == 'POST':
-        form = LoginPhoneForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            global phone, random_code
-            phone = f"{data['phone']}"
-            random_code = random.randint(1000, 9999)
-            sms = KavenegarAPI(
-                "************")# 
-            params = {
-                'sender': '10003330033033',  # 10003330033033
-                'receptor': phone,  # 
-                'message': f' {random_code} سلام این اولین تست است ',
-            }
-            response = sms.sms_send(params)
-            return redirect('app:verify_login_phone')
-    else:
-        form = LoginPhoneForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'app/phone/login-phone.html', context)
-
+        random_code = random.randint(1000, 9999)
+        sms = KavenegarAPI(
+                "**********************************")# 
+        params = {
+            'sender': '2000660110', 
+            'receptor': phone,  # 
+            'message': f' {random_code} سلام این اولین تست است ',
+        }
+        response = sms.sms_send(params)
+        return redirect('app:verify_login_phone')
+    
+    return render(request, 'app/phone/login-phone.html')
 
 def verify_login_phone(request):
+    if request.user.is_authenticated:
+        return redirect('app:home')
     if request.method == 'POST':
         form = CodePhoneForm(request.POST)
         if form.is_valid():
             if str(random_code) == form.cleaned_data['verify_code']:
-                profile = MyUser.objects.filter(user_id=request.user.id).update(phone=phone)
+                
+                if MyUser.objects.filter(phone=phone).exists():
+                    user = authenticate(request, phone=phone)
+                    if user is not None:
+                        login(request, user)
+                        return redirect('app:home')
+
+                # sign up
+                user = MyUser.objects.create_user(phone=phone)
+                user.save()
+
+                # sign in
+                user = authenticate(request, phone=phone)
+                print(user)
+                if user is not None:
+                    login(request, user)
+
                 global verify
                 verify = True
                 return redirect('app:login')
@@ -107,3 +76,61 @@ def verify_login_phone(request):
         'form': form,
     }
     return render(request, 'app/phone/verify-login-phone.html', context)
+
+
+
+def login_phone_doctor(request):
+    if request.user.is_authenticated:
+        return redirect('app:home')
+    if request.method == 'POST':
+        global phone, random_code
+        phone = request.POST.get('phone')
+        random_code = random.randint(1000, 9999)
+        sms = KavenegarAPI(
+                "*****************************")# 
+        params = {
+            'sender': '2000660110', 
+            'receptor': phone,  # 
+            'message': f' {random_code} سلام این اولین تست است ',
+        }
+        response = sms.sms_send(params)
+        return redirect('app:verify_login_phone_doctor')
+    
+    return render(request, 'app/phone/login-phone-doctor.html')
+
+def verify_login_phone_doctor(request):
+    if request.user.is_authenticated:
+        return redirect('app:home')
+    if request.method == 'POST':
+        form = CodePhoneDoctorForm(request.POST)
+        if form.is_valid():
+            if str(random_code) == form.cleaned_data['verify_code']:
+                
+                if MyUser.objects.filter(phone=phone).exists():
+                    user = authenticate(request, phone=phone)
+                    if user is not None:
+                        login(request, user)
+                        return redirect('app:home')
+
+                # sign up
+                user = MyUser.objects.create_user(phone=phone,is_Doctor=form.cleaned_data['is_Doctor'])
+                user.save()
+
+                # sign in
+                user = authenticate(request, phone=phone)
+                print(user)
+                if user is not None:
+                    login(request, user)
+
+                global verify
+                verify = True
+                return redirect('app:home')
+            else:
+                messages.error(request, 'کد وارد شده اشتباه است')
+    else:
+        form = CodePhoneDoctorForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'app/phone/verify-login-phone-doctor.html', context)
+
