@@ -78,7 +78,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=50, blank=True, null=False, verbose_name="نام خانوادگی")
     nationality_code = models.CharField(max_length=10, blank=True, null=True, verbose_name="کد ملی")
     personal_code = models.CharField(max_length=5, blank=True, null=False, verbose_name="کد نظام پزشکی")
-    date_of_birth = models.CharField(max_length=8, blank=True, null=False, verbose_name="تاریخ تولد")
+    date_of_birth = models.CharField(max_length=12, blank=True, null=False, verbose_name="تاریخ تولد")
     city = models.CharField(max_length=70, blank=True, null=False, verbose_name="شهر")
     address = models.CharField(max_length=200, blank=True, null=False, verbose_name="آدرس")
     photo = models.ImageField(upload_to='face/', verbose_name="عکس")

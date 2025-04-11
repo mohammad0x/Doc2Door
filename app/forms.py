@@ -37,3 +37,10 @@ class CodePhoneDoctorForm(forms.ModelForm):
         model = MyUser
         fields = ['verify_code' , 'is_Doctor']
 
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'last_name','nationality_code',
+                   'personal_code','date_of_birth','city','address',
+                   'photo','nationality_photo','personal_photo']
