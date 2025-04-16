@@ -7,9 +7,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-
 class MyUserManager(BaseUserManager):
-    def create_user(self, phone, **extra_fields):
+    def create_user(self, phone ,  **extra_fields):
         """
         Creates and saves a User with the given phone, date of
         birth and password.
@@ -22,23 +21,25 @@ class MyUserManager(BaseUserManager):
             **extra_fields
         )
 
-        user.set_unusable_password()  # Since we’re not using passwords
+
+        user.set_unusable_password()
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, password=None):
+    def create_superuser(self, phone, password, **extra_fields):
         """
-        Creates and saves a superuser with the given phone, date of
+        Creates and saves a superuser with the given email, date of
         birth and password.
         """
         user = self.create_user(
             phone,
-            password=password,
+            **extra_fields,
+            
         )
+        user.set_password(password)
         user.is_admin = True
         user.save(using=self._db)
         return user
-
 
 class MyUser(AbstractBaseUser):
     phone = models.CharField(max_length=11, unique=True)
@@ -91,3 +92,22 @@ def save_profile_user(sender, instance, created, **kwargs):
     if created and instance.is_Doctor:
         profile_user = Profile(user=instance)
         profile_user.save()
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Post(models.Model):
+    category = models.ManyToManyField(Category, verbose_name="دسته", related_name="post")
+    title = models.CharField(max_length=150)
+    slug = models.SlugField(unique=True, max_length=250)
+    price = models.CharField(max_length=10)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

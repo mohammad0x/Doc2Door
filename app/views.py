@@ -29,7 +29,7 @@ def login_phone(request):
         phone = request.POST.get('phone')
         random_code = random.randint(1000, 9999)
         sms = KavenegarAPI(
-            "**********************")  #
+            "65506D4C414E3873434C4A54377862786272764342653867506E46792B2B4F624849494C5269645A66486F3D")  #
         params = {
             'sender': '2000660110',
             'receptor': phone,  # 
@@ -86,7 +86,7 @@ def login_phone_doctor(request):
         phone = request.POST.get('phone')
         random_code = random.randint(1000, 9999)
         sms = KavenegarAPI(
-            "****************")  #
+            "65506D4C414E3873434C4A54377862786272764342653867506E46792B2B4F624849494C5269645A66486F3D")  #
         params = {
             'sender': '2000660110',
             'receptor': phone,  # 
@@ -158,3 +158,26 @@ def profile_view(request):
         'profile': profile
     }
     return render(request, 'app/profile/Profile.html', context)
+
+
+def postView(request):
+    post = Post.objects.all().order_by('created_at')
+    context = {
+        'post': post
+    }
+    return render(request, 'app/post.html', context)
+
+
+def singlePost(request, slug):
+    single = get_object_or_404(Post, slug=slug)
+    context = {
+        'single': single
+    }
+    return render(request, 'app/singlePost.html', context)
+
+
+def category(requests, slug):
+    context = {
+        "category": get_object_or_404(Category, slug=slug)
+    }
+    return render(requests, "app/category.html", context)

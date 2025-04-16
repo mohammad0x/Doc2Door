@@ -70,7 +70,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Doc2Door.wsgi.application'
 AUTH_USER_MODEL = "app.MyUser"
-AUTHENTICATION_BACKENDS = ['app.auth_backends.PhoneNumberBackend']
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'app.auth_backends.PhoneNumberBackend'
+    ]
 
 
 # Database

@@ -3,6 +3,9 @@ from .models import MyUser
 
 class PhoneNumberBackend(BaseBackend):
     def authenticate(self, request, phone=None):
+        if request and request.path.startswith('/admin'):
+            return None
+
         try:
             user = MyUser.objects.get(phone=phone)
             return user if user.is_active else None
