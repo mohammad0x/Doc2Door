@@ -168,6 +168,7 @@ def postView(request):
     return render(request, 'app/post.html', context)
 
 
+
 def singlePost(request, slug):
     single = get_object_or_404(Post, slug=slug)
     context = {
