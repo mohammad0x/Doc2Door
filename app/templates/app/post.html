@@ -6,6 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    
+    {% for posts in post  %}
+        <p>
+            <a href="{% url 'app:singlePost' posts.slug %}">{{ posts.title }}</a> 
+        </p>
+        {% for cat in posts.category.all %}
+            <a href="{% url 'app:category' cat.slug %}">#{{ cat.name }}</a>
+        {% endfor %}
+    {% endfor %}
 </body>
 </html>

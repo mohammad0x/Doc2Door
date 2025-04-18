@@ -15,4 +15,8 @@ urlpatterns = [
 
     path('updateProfile/' , ProfileUpdate ,name='ProfileUpdate'),
     path('profile/' , profile_view ,name='profile'),
+
+    path('post/',postView , name="postView"),
+    path('singlePost/<slug:slug>' ,singlePost , name='singlePost' ),
+    path('category/<slug:slug>', category ,name="category"),
 ]

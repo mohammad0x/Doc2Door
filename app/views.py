@@ -29,7 +29,7 @@ def login_phone(request):
         phone = request.POST.get('phone')
         random_code = random.randint(1000, 9999)
         sms = KavenegarAPI(
-            "*********************")  #
+            "**************************")  #
         params = {
             'sender': '2000660110',
             'receptor': phone,  # 
@@ -86,7 +86,7 @@ def login_phone_doctor(request):
         phone = request.POST.get('phone')
         random_code = random.randint(1000, 9999)
         sms = KavenegarAPI(
-            "*************")  #
+            "****************")  #
         params = {
             'sender': '2000660110',
             'receptor': phone,  # 
@@ -166,7 +166,6 @@ def postView(request):
         'post': post
     }
     return render(request, 'app/post.html', context)
-
 
 
 def singlePost(request, slug):
