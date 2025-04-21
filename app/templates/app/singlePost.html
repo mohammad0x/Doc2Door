@@ -15,5 +15,8 @@
     <p>
         {{ single.price }}
     </p>
+    <p>
+        <a href="{% url 'app:reservationView' single.id %}">RESERVE</a>
+    </p>
 </body>
 </html>

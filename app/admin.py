@@ -4,4 +4,7 @@ from .models import *
 admin.site.register(MyUser)
 admin.site.register(Profile)
 admin.site.register(Post)
+admin.site.register(News)
+admin.site.register(Reserve)
 admin.site.register(Category)
+

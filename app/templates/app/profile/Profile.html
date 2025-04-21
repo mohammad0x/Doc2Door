@@ -29,6 +29,15 @@
             {{ profile.address }}
         </p>
         <p>
+            موجودی حساب{{ profile.qty }}
+        </p>
+        {% if profile.verify == False %}
+            حساب شما تایید نشده در انتظار تایید{{ profile.verify }}
+        {% endif %}
+        {% if profile.verify == True %}
+            حساب شما تایید شده است{{ profile.verify }}
+        {% endif %}
+        <p>
             <img src="{{ profile.photo.url }}" alt="" width="250" height="250">
         </p>
         <p>

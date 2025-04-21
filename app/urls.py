@@ -17,6 +17,13 @@ urlpatterns = [
     path('profile/' , profile_view ,name='profile'),
 
     path('post/',postView , name="postView"),
-    path('singlePost/<slug:slug>' ,singlePost , name='singlePost' ),
-    path('category/<slug:slug>', category ,name="category"),
+    path('singlePost/<str:slug>' ,singlePost , name='singlePost' ),
+    path('category/<str:slug>', category ,name="category"),
+
+    path('news/',newsView , name="newsView"),
+    path('singleNews/<str:slug>',singleNews , name="singleNews"),
+
+    path('reservationView/<int:id>' , reservationView , name='reservationView'),
+    path('showReservation/' , showReservation , name="showReservation"),
+    path('reservationRequest/<int:id>' , reservationRequest , name='reservationRequest'), 
 ]

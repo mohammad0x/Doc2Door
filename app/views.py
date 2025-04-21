@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import *
 import random
+from django.http import HttpResponse
 from kavenegar import *
 
 
@@ -28,14 +29,15 @@ def login_phone(request):
         global phone, random_code
         phone = request.POST.get('phone')
         random_code = random.randint(1000, 9999)
-        sms = KavenegarAPI(
-            "**************************")  #
-        params = {
-            'sender': '2000660110',
-            'receptor': phone,  # 
-            'message': f' {random_code} سلام این اولین تست است ',
-        }
-        response = sms.sms_send(params)
+        print(random_code)
+        # sms = KavenegarAPI(
+        #     "***************")  #
+        # params = {
+        #     'sender': '2000660110',
+        #     'receptor': phone,  # 
+        #     'message': f' {random_code} سلام این اولین تست است ',
+        # }
+        # response = sms.sms_send(params)
         return redirect('app:verify_login_phone')
 
     return render(request, 'app/phone/login-phone.html')
@@ -67,7 +69,7 @@ def verify_login_phone(request):
 
                 global verify
                 verify = True
-                return redirect('app:login')
+                return redirect('app:post')
             else:
                 messages.error(request, 'کد وارد شده اشتباه است')
     else:
@@ -85,14 +87,15 @@ def login_phone_doctor(request):
         global phone, random_code
         phone = request.POST.get('phone')
         random_code = random.randint(1000, 9999)
-        sms = KavenegarAPI(
-            "****************")  #
-        params = {
-            'sender': '2000660110',
-            'receptor': phone,  # 
-            'message': f' {random_code} سلام این اولین تست است ',
-        }
-        response = sms.sms_send(params)
+        print(random_code)
+        # sms = KavenegarAPI(
+        #     "***********************")  #
+        # params = {
+        #     'sender': '2000660110',
+        #     'receptor': phone,  # 
+        #     'message': f' {random_code} سلام این اولین تست است ',
+        # }
+        # response = sms.sms_send(params)
         return redirect('app:verify_login_phone_doctor')
 
     return render(request, 'app/phone/login-phone-doctor.html')
@@ -110,7 +113,7 @@ def verify_login_phone_doctor(request):
                     user = authenticate(request, phone=phone)
                     if user is not None:
                         login(request, user)
-                        return redirect('app:home')
+                        return redirect('app:ProfileUpdate')
 
                 # sign up
                 user = MyUser.objects.create_user(phone=phone, is_Doctor=form.cleaned_data['is_Doctor'])
@@ -175,9 +178,69 @@ def singlePost(request, slug):
     }
     return render(request, 'app/singlePost.html', context)
 
+def newsView(request):
+    news = News.objects.all().order_by('created_at')
+    context = {
+        'news': news
+    }
+    return render(request, 'app/news/news.html', context)
+
+
+def singleNews(request, slug):
+    single = get_object_or_404(News, slug=slug)
+    context = {
+        'singleNews': singleNews
+    }
+    return render(request, 'app/news/singleNews.html', context)
+
+
+
 
 def category(requests, slug):
     context = {
         "category": get_object_or_404(Category, slug=slug)
     }
     return render(requests, "app/category.html", context)
+
+
+@login_required(login_url='/loginPhone/')
+def reservationView(request , id):
+    if request.method == 'POST':
+        post = id 
+        user = request.user.id 
+        city = request.POST['city']
+        address = request.POST['address']
+        plate = request.POST['plate']
+        name = request.POST['name']
+        insurance = request.POST['insurance']
+
+        Reserve.objects.create(post_id = post , user_id = user , city = city , 
+                               address = address , plate = plate , name = name , 
+                               insurance = insurance , paid=False)
+        return redirect('app:home')
+    return render(request , 'app/reserve/reservation.html')
+
+
+@login_required(login_url='/loginPhone/')
+def showReservation(request):
+    if request.user.is_Doctor == True:
+        reserv = Reserve.objects.filter(accept = False).order_by('-created_at')
+        context = {
+            'reserv':reserv
+        }
+        return render(request , 'app/reserve/show_reservation.html' , context)
+    else:
+        return redirect('app:postView')
+
+
+@login_required(login_url='/loginPhone/')
+def reservationRequest(request , id):
+    if request.user.is_Doctor == True:
+        if request.method == 'POST':
+            reserve = id
+            user = request.user.id
+            Accept.objects.create(reserve_id = reserve , user_id = user)
+        else:
+            return HttpResponse('قبول شد')
+    else:
+        return redirect('app:postView')

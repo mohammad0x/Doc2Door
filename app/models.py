@@ -1,5 +1,5 @@
 from django.db import models
-
+import jdatetime
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
@@ -75,6 +75,7 @@ class MyUser(AbstractBaseUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(MyUser, on_delete=models.CASCADE, related_name="Profile")
+    qty = models.CharField(max_length=11 ,default=0, verbose_name="موجودی حساب")
     first_name = models.CharField(max_length=50, blank=True, null=False, verbose_name="نام")
     last_name = models.CharField(max_length=50, blank=True, null=False, verbose_name="نام خانوادگی")
     nationality_code = models.CharField(max_length=10, blank=True, null=True, verbose_name="کد ملی")
@@ -85,6 +86,8 @@ class Profile(models.Model):
     photo = models.ImageField(upload_to='face/', verbose_name="عکس")
     nationality_photo = models.ImageField(upload_to='nationality/', verbose_name="عکس کارت ملی")
     personal_photo = models.ImageField(upload_to='personal/', verbose_name="عکس کارت پرسنلی")
+    verify = models.BooleanField(default=False)
+
 
 
 @receiver(post_save, sender=MyUser)
@@ -95,8 +98,8 @@ def save_profile_user(sender, instance, created, **kwargs):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True,verbose_name="عنوان")
+    slug = models.CharField(max_length=100, unique=True,verbose_name="صاحب عنوان")
 
     def __str__(self):
         return self.name
@@ -104,10 +107,53 @@ class Category(models.Model):
 
 class Post(models.Model):
     category = models.ManyToManyField(Category, verbose_name="دسته", related_name="post")
-    title = models.CharField(max_length=150)
-    slug = models.SlugField(unique=True, max_length=250)
-    price = models.CharField(max_length=10)
-    created_at = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=150,verbose_name="عنوان")
+    slug = models.CharField(unique=True, max_length=250)
+    price = models.CharField(max_length=10,verbose_name="قیمت")
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name="زمان ساخت")
+
+    @property
+    def created_at_jalali(self):
+        return jdatetime.datetime.fromgregorian(datetime=self.created_at).strftime('%Y/%m/%d - %H:%M')
 
     def __str__(self):
         return self.title
+
+class Reserve(models.Model):
+    user = models.ForeignKey(MyUser , on_delete=models.CASCADE , name='user')
+    post = models.ForeignKey(Post , on_delete=models.CASCADE , name='post')
+    city = models.CharField(max_length=70, blank=False, null=True,verbose_name="شهر")
+    address = models.CharField(max_length=250,verbose_name="آدرس")
+    plate = models.CharField(max_length=10,verbose_name="پلاک")
+    name = models.CharField(max_length=150,verbose_name="نام و نام خانوادگی")
+    insurance = models.CharField(max_length=100 , null=True,verbose_name="بیمه")
+    paid = models.BooleanField(default=False,verbose_name="پرداخت")
+    accept = models.BooleanField(default=False,verbose_name="قبول شدن")
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name="زمان رزرو")
+
+    def __str__(self):
+        return f"{self.user.phone } {self.post.title}"
+
+    @property
+    def created_at_jalali(self):
+        return jdatetime.datetime.fromgregorian(datetime=self.created_at).strftime('%Y/%m/%d - %H:%M')
+
+
+class News(models.Model):
+    title = models.CharField(max_length=100,verbose_name=" عنوان")
+    slug = models.CharField(max_length=100 , unique=True,verbose_name=" صاحب عنوان")
+    desc = models.TextField(verbose_name="متن")
+    image = models.ImageField(upload_to='Image_news/',verbose_name="عکس")
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name="زمان ساخت")
+
+    @property
+    def created_at_jalali(self):
+        return jdatetime.datetime.fromgregorian(datetime=self.created_at).strftime('%Y/%m/%d - %H:%M')
+
+    def __str__(self):
+        return self.title
+
+
+class Accept(models.Model):
+    reserve = models.ForeignKey(Reserve , on_delete=models.CASCADE , related_name = 'acceptReserve')
+    user = models.ForeignKey(MyUser , on_delete=models.CASCADE)
