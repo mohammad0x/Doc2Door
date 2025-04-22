@@ -89,6 +89,10 @@ class Profile(models.Model):
     verify = models.BooleanField(default=False)
 
 
+    def __str__(self):
+        return f'{self.first_name}   {self.last_name}'
+
+
 
 @receiver(post_save, sender=MyUser)
 def save_profile_user(sender, instance, created, **kwargs):

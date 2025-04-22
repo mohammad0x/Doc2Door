@@ -239,8 +239,8 @@ def reservationRequest(request , id):
         if request.method == 'POST':
             reserve = id
             user = request.user.id
-            Accept.objects.create(reserve_id = reserve , user_id = user)
-        else:
+            if Accept.objects.create(reserve_id = reserve , user_id = user):
+                Reserve.objects.filter(id = reserve).update(accept = True)
             return HttpResponse('قبول شد')
     else:
         return redirect('app:postView')

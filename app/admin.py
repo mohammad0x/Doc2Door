@@ -5,6 +5,8 @@ admin.site.register(MyUser)
 admin.site.register(Profile)
 admin.site.register(Post)
 admin.site.register(News)
-admin.site.register(Reserve)
+class reseveAdmin(admin.ModelAdmin):
+    list_filter = ['accept' , 'created_at']
+admin.site.register(Reserve ,reseveAdmin )
 admin.site.register(Category)
 
