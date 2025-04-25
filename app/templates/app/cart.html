@@ -13,7 +13,7 @@
             <p>آدرس : {{ reserv.address }}</p>
             قبول شده :<p>{{ reserv.accept }}</p>
         {% endfor %}
-        {% if price %}
+        {% if price and price != 0 %}
             <form action="{% url 'app:request' %}" method="post">
                 {% csrf_token %}
                 <p> 

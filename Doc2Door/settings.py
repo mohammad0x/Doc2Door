@@ -136,5 +136,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # SANDBOX MODE
 
-MERCHANT  =  "******************************"
+MERCHANT  =  "*******************"
 SANDBOX  =  True

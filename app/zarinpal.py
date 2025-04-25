@@ -1,7 +1,7 @@
 
 from django.conf import settings
 
-CallbackURL = 'http://127.0.0.1:8080/verify/'
+CallbackURL = 'http://127.0.0.1:8000/verify/'
 #? sandbox merchant 
 if settings.SANDBOX:
     sandbox = 'sandbox'

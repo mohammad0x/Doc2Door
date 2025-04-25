@@ -255,10 +255,10 @@ def reservationRequest(request , id):
 
 @login_required(login_url='/loginPhone/')
 def cartView(request):
-    reserve = Reserve.objects.filter(user = request.user.id)
-    if Reserve.objects.filter(user = request.user.id).exists():
-        global pricee
-        pricee = 0
+    global pricee
+    pricee = 0
+    reserve = Reserve.objects.filter(user = request.user.id , paid = False)
+    if Reserve.objects.filter(user = request.user.id , paid = False).exists():
         for reserves in reserve :
             pricee += int(reserves.post.price)
     context  = {
@@ -269,7 +269,7 @@ def cartView(request):
 
 
 
-
+@login_required(login_url='/loginPhone/')
 def request_payment(request):
     if request.method == 'POST':
         global amount
@@ -301,23 +301,44 @@ def request_payment(request):
 
             else:
                 return HttpResponse("مشکلی پیش آمد.")
+        else:
+            return redirect('app:cartView')
     return redirect('app:cartView')
 
-def verify(authority):
-    data = {
-        "MerchantID": settings.MERCHANT,
-        "Amount": amount,
-        "Authority": authority,
-    }
-    data = json.dumps(data)
-    # set content length by data
-    headers = {'content-type': 'application/json', 'content-length': str(len(data)) }
-    response = requests.post(ZP_API_VERIFY, data=data,headers=headers)
 
-    if response.status_code == 200:
-        response = response.json()
-        if response['Status'] == 100:
-            return {'status': True, 'RefID': response['RefID']}
+
+@login_required(login_url='/loginPhone/')
+def verify(request):
+    status = request.GET.get('Status')
+    authority = request.GET['Authority']
+
+    if status == "OK":
+        data = {
+            "merchant_id": settings.MERCHANT,
+            "amount": amount,
+            "authority": authority
+        }
+        data = json.dumps(data)
+
+        headers = {'content-type': 'application/json', 'Accept': 'application/json'}
+
+        response = requests.post(ZP_API_VERIFY, data=data, headers=headers)
+
+        if response.status_code == 200:
+            response = response.json()
+            if response['data']['code'] == 100:
+                # put your logic here
+                Reserve.objects.filter(user=request.user.id).update(paid = True)
+                return HttpResponse("خرید شما با موفقیت انجام شد.")
+
+            elif response['data']['code'] == 101:
+                return HttpResponse("این پرداخت قبلا انجام شده است.")
+
+            else:
+                return HttpResponse("پرداخت شما ناموفق بود.")
+
         else:
-            return {'status': False, 'code': str(response['Status'])}
-    return response
+            return HttpResponse("پرداخت شما ناموفق بود.")
+
+    else:
+        return HttpResponse("پرداخت شما ناموفق بود.")
