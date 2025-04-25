@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            city:
+            <input type="text" name="city">
+        </p>
+        <p>
+            address:
+            <input type="text" name="address">
+        </p>
+        <p>
+            plate:
+            <input type="text" name="plate">
+        </p>
+        <p>
+            name:
+            <input type="text" name="name">
+        </p>
+        <p>
+            insurance:
+            <input type="text" name="insurance">
+        </p>
+        <p>
+            <input type="submit">
+        </p>
+    </form>
+    <p>
+        {% for reserve in reserve %}
+            <p>
+                {{ reserve.post.title }}
+            </p>
+            <p>
+                {{ reserve.post.price }}
+            </p>
+        {% endfor %}
+    </p>
+</body>
+</html>

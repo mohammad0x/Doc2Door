@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for reserv in reserv %}
+    <p>
+        شماره رزرو کننده
+        {{ reserv.user.phone }}
+    </p>
+    <p>
+        عنوان رزرو شده
+        {{ reserv.post.title }}
+    </p>
+    <p>
+        قیمت نهایی
+        {{ reserv.post.price }}
+    </p>
+    <p>
+        آدرس
+        {{ reserv.address }}
+        شهر
+        {{ reserv.city }}
+        پلاک
+        {{ reserv.plate }}
+    </p>
+    <p>
+        بیمه
+        {{ reserv.insurance }}
+    </p>
+    <p>
+        پرداخت شده
+        {{ reserv.paid }}
+    </p>
+    <p>
+        قبول شده؟
+        {{ reserv.accept }}
+    </p>
+    <p>
+        زمان درخواست
+        {{ reserv.created_at }}
+    </p>
+    <p>
+        <form method="post" action="{% url 'app:reservationRequest' reserv.id %}">
+            {% csrf_token %}
+            <p>
+                <input type="submit">
+            </p>
+        </form>
+    </p>
+    <p>
+        ***************************************************
+    </p>
+
+    {% endfor %}
+
+</body>
+</html>

@@ -7,7 +7,12 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 import random
 from django.http import HttpResponse
+import requests
+import json
 from kavenegar import *
+from .zarinpal import *
+
+
 
 
 # Create your views here.
@@ -24,11 +29,11 @@ def Logout_view(request):
 
 def login_phone(request):
     if request.user.is_authenticated:
-        return redirect('app:home')
+        return redirect('app:home')        
     if request.method == 'POST':
         global phone, random_code
         phone = request.POST.get('phone')
-        random_code = random.randint(1000, 9999)
+        random_code = random.randint(100000, 999999)
         print(random_code)
         # sms = KavenegarAPI(
         #     "***************")  #
@@ -86,7 +91,7 @@ def login_phone_doctor(request):
     if request.method == 'POST':
         global phone, random_code
         phone = request.POST.get('phone')
-        random_code = random.randint(1000, 9999)
+        random_code = random.randint(100000, 999999)
         print(random_code)
         # sms = KavenegarAPI(
         #     "***********************")  #
@@ -218,7 +223,9 @@ def reservationView(request , id):
                                address = address , plate = plate , name = name , 
                                insurance = insurance , paid=False)
         return redirect('app:home')
-    return render(request , 'app/reserve/reservation.html')
+    
+    reserve = Reserve.objects.filter(user = request.user.id)
+    return render(request , 'app/reserve/reservation.html' , {'reserve':reserve})
 
 
 @login_required(login_url='/loginPhone/')
@@ -244,3 +251,73 @@ def reservationRequest(request , id):
             return HttpResponse('قبول شد')
     else:
         return redirect('app:postView')
+
+
+@login_required(login_url='/loginPhone/')
+def cartView(request):
+    reserve = Reserve.objects.filter(user = request.user.id)
+    if Reserve.objects.filter(user = request.user.id).exists():
+        global pricee
+        pricee = 0
+        for reserves in reserve :
+            pricee += int(reserves.post.price)
+    context  = {
+        'reserve':reserve,
+        'price':pricee
+    }
+    return render(request , 'app/cart.html' , context)
+
+
+
+
+def request_payment(request):
+    if request.method == 'POST':
+        global amount
+        amount = request.POST['amount']
+        description = request.POST['description']
+
+        if str(pricee) == str(amount):
+            data = {
+                "merchant_id": settings.MERCHANT,
+                "amount": amount,
+                "description": description,
+                "callback_url": CallbackURL,
+            }
+            data = json.dumps(data)
+
+            headers = {'content-type': 'application/json', 'content-length': str(len(data))}
+
+            response = requests.post(ZP_API_REQUEST, data=data, headers=headers)
+
+            if response.status_code == 200:
+                response = response.json()
+
+                if response["data"]['code'] == 100:
+                    url = f"{ZP_API_STARTPAY}{response['data']['authority']}"
+                    return redirect(url)
+
+                else:
+                    return HttpResponse(str(response['errors']))
+
+            else:
+                return HttpResponse("مشکلی پیش آمد.")
+    return redirect('app:cartView')
+
+def verify(authority):
+    data = {
+        "MerchantID": settings.MERCHANT,
+        "Amount": amount,
+        "Authority": authority,
+    }
+    data = json.dumps(data)
+    # set content length by data
+    headers = {'content-type': 'application/json', 'content-length': str(len(data)) }
+    response = requests.post(ZP_API_VERIFY, data=data,headers=headers)
+
+    if response.status_code == 200:
+        response = response.json()
+        if response['Status'] == 100:
+            return {'status': True, 'RefID': response['RefID']}
+        else:
+            return {'status': False, 'code': str(response['Status'])}
+    return response

@@ -6,14 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-    
     <p>
-        this home
+        {{ singleNews.title }}
     </p>
     <p>
-        post :
-        <a href="{% url 'app:postView' %}">POST</a>
+        {{ singleNews.slug }}
     </p>
-
+    <p>
+        {{ singleNews.desc }}
+    </p>
+    <p>
+        <img src="{{ singleNews.image.url }}" width="250" height="300">
+    </p>
 </body>
 </html>

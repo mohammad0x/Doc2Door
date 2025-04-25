@@ -6,14 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    
-    <p>
-        this home
-    </p>
-    <p>
-        post :
-        <a href="{% url 'app:postView' %}">POST</a>
-    </p>
-
+    {% for news in news  %}
+        <p>
+            <a href="{% url 'app:singleNews' news.slug %}">{{ news.title }}</a> 
+        </p>
+    {% endfor %}
 </body>
 </html>
