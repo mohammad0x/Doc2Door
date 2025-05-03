@@ -5,7 +5,7 @@ app_name = 'app'
 
 
 urlpatterns = [
-    path('home/' ,Home , name='home' ),
+    path('' ,Home , name='home' ),
     path('contact/', Contact, name='contact'),
     path('health/', Health, name='health'),
     path('news/', News, name='news'),

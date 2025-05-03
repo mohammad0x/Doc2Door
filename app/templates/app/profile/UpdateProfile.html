@@ -1,78 +1,843 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   <!-- basic -->
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <!-- mobile metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <!-- site metas -->
+   <title>ورود با شماره</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <!-- bootstrap css -->
+   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+   <!-- style css -->
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+   <!-- Responsive-->
+   <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+   <!-- fevicon -->
+   <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/gif" />
+   <!-- Scrollbar Custom CSS -->
+   <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
+   <!-- Tweaks for older IEs-->
+   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+   <!-- owl stylesheets -->
+   <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+   <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+</head>
+   <body>
+      <!-- header section start -->
+    <div class="header_section">
+         <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="logo"><a href="{% url 'app:home' %}"><img src="{% static 'images/logo.png' %}"></a></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="تغییر ناوبری">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+               <ul class="navbar-nav mr-auto">
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:home' %}">خانه</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:health' %}">سلامتی</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:medicine' %}">داروها</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:news' %}">اخبار</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:client' %}">مشتریان</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:contact' %}">تماس با ما</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="#"><img src="{% static 'images/search-icon.png' %}"></a>
+                  </li>
+               </ul>
+            </div>
+         </nav>
+
+      </div>
+      <br><br><br><br><br>
+
+
+   <!DOCTYPE html>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>فرم آپلود تصاویر</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap');
+
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: #4a6baf;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group-spacer {
+            margin-bottom: 35px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #4a6baf;
+            box-shadow: 0 0 0 3px rgba(74, 107, 175, 0.2);
+            outline: none;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            background-color: #f9fafc;
+            cursor: pointer;
+            text-align: center;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload-label:hover {
+            border-color: #4a6baf;
+            background-color: #f0f4ff;
+        }
+
+        .file-upload-label i {
+            font-size: 40px;
+            color: #4a6baf;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .file-upload-label:hover i {
+            transform: scale(1.1);
+        }
+
+        .file-upload-label span {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .preview-container {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+        }
+
+        .edit-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+            background: #f5f7fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .control-group label {
+            margin-bottom: 0;
+            width: 100px;
+            text-align: right;
+        }
+
+        .control-group input[type="range"] {
+            flex-grow: 1;
+            margin: 0 15px;
+        }
+
+        .control-group .value-display {
+            width: 50px;
+            text-align: center;
+            font-weight: bold;
+            color: #4a6baf;
+        }
+
+        .rotate-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .rotate-btn {
+            background: #4a6baf;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rotate-btn:hover {
+            background: #3a5a9f;
+            transform: scale(1.1);
+        }
+
+        .reset-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .reset-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #4a6baf, #6a8ccf);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(74, 107, 175, 0.3);
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 107, 175, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Animation for file upload */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .uploading {
+            animation: pulse 1.5s infinite;
+        }
+
+
+        /* Cropper styles */
+        .cropper-container {
+            direction: ltr !important;
+        }
+
+        .cropper-modal {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .cropper-view-box {
+            outline: 2px solid #4a6baf;
+            outline-color: rgba(74, 107, 175, 0.75);
+        }
+
+        .cropper-dashed {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .cropper-point {
+            background-color: #4a6baf;
+            width: 8px;
+            height: 8px;
+        }
+
+        .cropper-crop-box {
+            border-radius: 0;
+        }
+
+        .crop-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .crop-btn {
+            background: #4a6baf;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .crop-btn:hover {
+            background: #3a5a9f;
+        }
+
+        .crop-btn.cancel {
+            background: #ff6b6b;
+        }
+
+        .crop-btn.cancel:hover {
+            background: #ff5252;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+                margin: 15px;
+            }
+
+            .control-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .control-group input[type="range"] {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .cropper-container {
+                max-width: 100%;
+            }
+        }
+
+    </style>
 </head>
 <body>
-    <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <p>
-            <label>
-                نام
-            </label>
-            <input type="text" name="first_name" maxlength="50" required>
-        </p>
-        <p>
-            <label>
-                نام خانوادگی
-            </label>
-            <input type="text" name="last_name" maxlength="50" required>
-        </p>
-        <p>
-            <label>
-                کد ملی
-            </label>
-            <input type="text" name="nationality_code" maxlength="10" required>
-        </p>
-        <p>
-            <label>
-                کد نظام پزشکی
-            </label>
-            <input type="text" name="personal_code" maxlength="5" required>
-        </p>
-        <p>
-            <label>
-                تاریخ تولد
-            </label>
-            <input type="date" name="date_of_birth" required>
-        </p>
-        <p>
-            <label>
-                شهر
-            </label>
-            <select name="city">
-                <option value="نیشابور">نیشابور</option>
-            </select>
-        </p>
-        <p>
-            <label>
-                آدرس
-            </label>
-            <input type="text" name="address" maxlength="100" required>
-        </p>
-        <p>
-            <label>
-                عکس پرسنلی
-            </label>
-            <input type="file" name="photo" accept="image/*" required>
-        </p>
-        <p>
-            <label>
-                عکس کارت ملی
-            </label>
-            <input type="file" , name="nationality_photo" accept="image/*" required>
-        </p>
-        <p>
-            <label>
-                عکس کارت نظام پزشکی
-            </label>
-            <input type="file" name="personal_photo" accept="image/*" required>
-        </p>
-        <p>
-            <input type="submit">
-        </p>
-    </form>
+    <div class="form-container">
+        <div class="form-header">
+            <h2>فرم ثبت اطلاعات پزشکی</h2>
+        </div>
+
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Personal Info Fields -->
+            <div class="form-group">
+                <label for="first_name">نام</label>
+                <input type="text" id="first_name" name="first_name" maxlength="50" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">نام خانوادگی</label>
+                <input type="text" id="last_name" name="last_name" maxlength="50" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nationality_code">کد ملی</label>
+                <input type="text" id="nationality_code" name="nationality_code" maxlength="10" required>
+            </div>
+
+            <div class="form-group">
+                <label for="personal_code">کد نظام پزشکی</label>
+                <input type="text" id="personal_code" name="personal_code" maxlength="5" required>
+            </div>
+
+            <div class="form-group">
+                <label for="date_of_birth">تاریخ تولد</label>
+                <input type="date" id="date_of_birth" name="date_of_birth" required>
+            </div>
+
+            <div class="form-group">
+                <label for="city">شهر</label>
+                <select id="city" name="city">
+                    <option value="نیشابور">نیشابور</option>
+                </select>
+            </div>
+
+            <div class="form-group form-group-spacer"> <!-- اضافه شدن کلاس form-group-spacer -->
+                <label for="address">آدرس</label>
+                <input type="text" id="address" name="address" maxlength="100" required>
+            </div>
+
+            <!-- Photo Upload Sections -->
+            <div class="form-group">
+                <label>عکس پرسنلی</label>
+                <div class="file-upload-wrapper" data-type="photo">
+                    <label class="file-upload-label" for="photo-upload">
+                        <i class="fas fa-camera"></i>
+                        <span>برای آپلود عکس پرسنلی کلیک کنید یا فایل را اینجا بکشید</span>
+                        <input type="file" id="photo-upload" class="file-upload-input" name="photo" accept="image/*" required>
+                    </label>
+                    <div class="preview-container">
+                        <div class="image-editor-container">
+                            <img class="preview-image" src="" alt="پیش نمایش عکس پرسنلی">
+                        </div>
+                        <div class="edit-controls">
+                            <div class="control-group">
+                                <label>مقیاس:</label>
+                                <input type="range" class="scale-control" min="50" max="150" value="100">
+                                <span class="value-display">100%</span>
+                            </div>
+                            <div class="control-group">
+                                <label>چرخش:</label>
+                                <input type="range" class="rotate-control" min="-180" max="180" value="0">
+                                <span class="value-display">0°</span>
+                            </div>
+                            <div class="rotate-buttons">
+                                <button type="button" class="rotate-btn" data-degrees="-90"><i class="fas fa-undo"></i></button>
+                                <button type="button" class="rotate-btn" data-degrees="90"><i class="fas fa-redo"></i></button>
+                            </div>
+                            <button type="button" class="reset-btn">بازنشانی تغییرات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>عکس کارت ملی</label>
+                <div class="file-upload-wrapper" data-type="nationality_photo">
+                    <label class="file-upload-label" for="nationality-upload">
+                        <i class="fas fa-id-card"></i>
+                        <span>برای آپلود عکس کارت ملی کلیک کنید یا فایل را اینجا بکشید</span>
+                        <input type="file" id="nationality-upload" class="file-upload-input" name="nationality_photo" accept="image/*" required>
+                    </label>
+                    <div class="preview-container">
+                        <div class="image-editor-container">
+                            <img class="preview-image" src="" alt="پیش نمایش کارت ملی">
+                        </div>
+                        <div class="edit-controls">
+                            <div class="control-group">
+                                <label>مقیاس:</label>
+                                <input type="range" class="scale-control" min="50" max="150" value="100">
+                                <span class="value-display">100%</span>
+                            </div>
+                            <div class="control-group">
+                                <label>چرخش:</label>
+                                <input type="range" class="rotate-control" min="-180" max="180" value="0">
+                                <span class="value-display">0°</span>
+                            </div>
+                            <div class="rotate-buttons">
+                                <button type="button" class="rotate-btn" data-degrees="-90"><i class="fas fa-undo"></i></button>
+                                <button type="button" class="rotate-btn" data-degrees="90"><i class="fas fa-redo"></i></button>
+                            </div>
+                            <button type="button" class="reset-btn">بازنشانی تغییرات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>عکس کارت نظام پزشکی</label>
+                <div class="file-upload-wrapper" data-type="personal_photo">
+                    <label class="file-upload-label" for="personal-upload">
+                        <i class="fas fa-user-md"></i>
+                        <span>برای آپلود عکس کارت نظام پزشکی کلیک کنید یا فایل را اینجا بکشید</span>
+                        <input type="file" id="personal-upload" class="file-upload-input" name="personal_photo" accept="image/*" required>
+                    </label>
+                    <div class="preview-container">
+                        <div class="image-editor-container">
+                            <img class="preview-image" src="" alt="پیش نمایش کارت نظام پزشکی">
+                        </div>
+                        <div class="edit-controls">
+                            <div class="control-group">
+                                <label>مقیاس:</label>
+                                <input type="range" class="scale-control" min="50" max="150" value="100">
+                                <span class="value-display">100%</span>
+                            </div>
+                            <div class="control-group">
+                                <label>چرخش:</label>
+                                <input type="range" class="rotate-control" min="-180" max="180" value="0">
+                                <span class="value-display">0°</span>
+                            </div>
+                            <div class="rotate-buttons">
+                                <button type="button" class="rotate-btn" data-degrees="-90"><i class="fas fa-undo"></i></button>
+                                <button type="button" class="rotate-btn" data-degrees="90"><i class="fas fa-redo"></i></button>
+                            </div>
+                            <button type="button" class="reset-btn">بازنشانی تغییرات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">ثبت اطلاعات</button>
+        </form>
+    </div>
+
+    <!-- Cropper Modal -->
+    <div class="cropper-modal" id="cropper-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: white; padding: 20px; border-radius: 10px; max-width: 90%; max-height: 90%;">
+            <div id="cropper-container" style="max-width: 100%; max-height: 70vh;">
+                <img id="cropper-image" src="" style="max-width: 100%; max-height: 60vh;">
+            </div>
+            <div class="crop-actions" style="margin-top: 20px;">
+                <button class="crop-btn cancel" id="cancel-crop">انصراف</button>
+                <button class="crop-btn" id="apply-crop">تایید و برش</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let cropper;
+            let currentCropperWrapper;
+            let currentCropperInput;
+
+            // Initialize cropper modal buttons
+            document.getElementById('cancel-crop').addEventListener('click', cancelCrop);
+            document.getElementById('apply-crop').addEventListener('click', applyCrop);
+
+            // Handle file upload for all upload sections
+            document.querySelectorAll('.file-upload-input').forEach(input => {
+                const wrapper = input.closest('.file-upload-wrapper');
+                const previewContainer = wrapper.querySelector('.preview-container');
+                const imageEditorContainer = wrapper.querySelector('.image-editor-container');
+                const previewImage = wrapper.querySelector('.preview-image');
+                const fileLabel = wrapper.querySelector('.file-upload-label');
+                const scaleControl = wrapper.querySelector('.scale-control');
+                const scaleValue = wrapper.querySelector('.scale-control + .value-display');
+                const rotateControl = wrapper.querySelector('.rotate-control');
+                const rotateValue = wrapper.querySelector('.rotate-control + .value-display');
+                const rotateButtons = wrapper.querySelectorAll('.rotate-btn');
+                const resetBtn = wrapper.querySelector('.reset-btn');
+
+                let currentRotation = 0;
+                let currentScale = 1;
+
+                input.addEventListener('change', function(e) {
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+
+                        fileLabel.classList.add('uploading');
+
+                        reader.onload = function(e) {
+                            // Show cropping interface
+                            currentCropperWrapper = wrapper;
+                            currentCropperInput = input;
+                            showCropper(e.target.result);
+                            fileLabel.classList.remove('uploading');
+                        }
+
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+
+                // Drag and drop functionality
+                fileLabel.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragover');
+                });
+
+                fileLabel.addEventListener('dragleave', function() {
+                    this.classList.remove('dragover');
+                });
+
+                fileLabel.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                    input.files = e.dataTransfer.files;
+                    const event = new Event('change');
+                    input.dispatchEvent(event);
+                });
+
+                // Scale control
+                scaleControl.addEventListener('input', function() {
+                    currentScale = this.value / 100;
+                    scaleValue.textContent = this.value + '%';
+                    applyTransformation();
+                });
+
+                // Rotate control
+                rotateControl.addEventListener('input', function() {
+                    currentRotation = parseInt(this.value);
+                    rotateValue.textContent = this.value + '°';
+                    applyTransformation();
+                });
+
+                // Rotate buttons
+                rotateButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const degrees = parseInt(this.getAttribute('data-degrees'));
+                        currentRotation += degrees;
+
+                        // Keep rotation between -180 and 180
+                        if (currentRotation > 180) currentRotation -= 360;
+                        if (currentRotation < -180) currentRotation += 360;
+
+                        rotateControl.value = currentRotation;
+                        rotateValue.textContent = currentRotation + '°';
+                        applyTransformation();
+                    });
+                });
+
+                // Reset button
+                resetBtn.addEventListener('click', function() {
+                    currentRotation = 0;
+                    currentScale = 1;
+                    previewImage.style.transform = 'scale(1) rotate(0deg)';
+                    scaleControl.value = 100;
+                    scaleValue.textContent = '100%';
+                    rotateControl.value = 0;
+                    rotateValue.textContent = '0°';
+                });
+
+                function applyTransformation() {
+                    previewImage.style.transform = `scale(${currentScale}) rotate(${currentRotation}deg)`;
+                }
+            });
+
+            function showCropper(imageSrc) {
+                const modal = document.getElementById('cropper-modal');
+                const image = document.getElementById('cropper-image');
+
+                image.src = imageSrc;
+                modal.style.display = 'flex';
+
+                // Initialize cropper with square aspect ratio
+                cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                    autoCropArea: 0.8,
+                    responsive: true,
+                    guides: false,
+                    center: false,
+                    background: false,
+                    movable: true,
+                    rotatable: false,
+                    scalable: false,
+                    zoomable: true,
+                    cropBoxMovable: true,
+                    cropBoxResizable: true,
+                    toggleDragModeOnDblclick: false,
+                    minCropBoxWidth: 100,
+                    minCropBoxHeight: 100
+                });
+            }
+
+            function cancelCrop() {
+                document.getElementById('cropper-modal').style.display = 'none';
+                if (cropper) {
+                    cropper.destroy();
+                }
+            }
+
+            function applyCrop() {
+                if (cropper) {
+                    // Get cropped canvas
+                    const canvas = cropper.getCroppedCanvas({
+                        width: 500,
+                        height: 500,
+                        minWidth: 256,
+                        minHeight: 256,
+                        maxWidth: 1024,
+                        maxHeight: 1024,
+                        fillColor: '#fff',
+                        imageSmoothingEnabled: true,
+                        imageSmoothingQuality: 'high',
+                    });
+
+                    // Convert canvas to blob and create new file
+                    canvas.toBlob((blob) => {
+                        const file = new File([blob], currentCropperInput.files[0].name, {
+                            type: 'image/jpeg',
+                            lastModified: Date.now()
+                        });
+
+                        // Create new FileList and assign it to the input
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        currentCropperInput.files = dataTransfer.files;
+
+                        // Update preview
+                        const previewImage = currentCropperWrapper.querySelector('.preview-image');
+                        previewImage.src = canvas.toDataURL('image/jpeg');
+                        currentCropperWrapper.querySelector('.preview-container').style.display = 'block';
+
+                        // Reset transformations
+                        currentCropperWrapper.querySelector('.scale-control').value = 100;
+                        currentCropperWrapper.querySelector('.scale-control + .value-display').textContent = '100%';
+                        currentCropperWrapper.querySelector('.rotate-control').value = 0;
+                        currentCropperWrapper.querySelector('.rotate-control + .value-display').textContent = '0°';
+                        previewImage.style.transform = 'scale(1) rotate(0deg)';
+
+                        // Hide modal and clean up
+                        document.getElementById('cropper-modal').style.display = 'none';
+                        cropper.destroy();
+                    }, 'image/jpeg', 0.9);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+</body>
+</html>
+<br><br>
+
+  <div class="footer_section layout_padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-3 col-sm-6">
+               <div class="footer_logo"><a href="../home/index.html"><img src="{% static 'images/footer-logo.png' %}"></a></div>
+               <h1 class="adderss_text">تماس با ما</h1>
+               <div class="map_icon"><img src="{% static 'images/map-icon.png' %}"><span class="paddlin_left_0">صفحه هنگام مشاهده آن</span></div>
+               <div class="map_icon"><img src="{% static 'images/call-icon.png' %}"><span class="paddlin_left_0">+۷۵۸۶۶۵۶۵۶۶</span></div>
+               <div class="map_icon"><img src="{% static 'images/mail-icon.png' %}"><span class="paddlin_left_0">volim@gmail.com</span></div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+               <h1 class="adderss_text">پزشکان</h1>
+               <div class="hiphop_text_1">انواع مختلفی از متون لورم ایپسوم موجود است، اما اکثر آنها دچار تغییراتی شده‌اند، به‌وسیله طنز تزریقی،</div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+               <h1 class="adderss_text">لینک‌های مفید</h1>
+               <div class="Useful_text">انواع مختلفی از متون لورم ایپسوم موجود است، اما اکثر آنها دچار تغییراتی شده‌اند،</div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+               <h1 class="adderss_text">خبرنامه</h1>
+               <input type="text" class="Enter_text" placeholder="ایمیل خود را وارد کنید" name="Enter your Emil">
+               <div class="subscribe_bt"><a href="#">اشتراک</a></div>
+               <div class="social_icon">
+                  <ul>
+                     <li><a href="#"><img src="{% static 'images/fb-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/linkedin-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/instagram-icon.png' %}"></a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- footer section end -->
+   <!-- copyright section start -->
+   <div class="copyright_section">
+      <div class="container">
+         <p class="copyright_text">2019 All Rights Reserved. Design by <a href="https://html.design">Free html Templates</a></p>
+      </div>
+   </div>
+   <!-- copyright section end -->
+   <!-- Javascript files-->
+   <script src="{% static 'js/jquery.min.js' %}"></script>
+   <script src="{% static 'js/popper.min.js' %}"></script>
+   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+   <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+   <script src="{% static 'js/plugin.js' %}"></script>
+   <!-- sidebar -->
+   <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+   <script src="{% static 'js/custom.js' %}"></script>
+   <!-- javascript -->
+   <script src="{% static 'js/owl.carousel.js' %}"></script>
+   <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
 </body>
 </html>
