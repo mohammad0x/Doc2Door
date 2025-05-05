@@ -5,8 +5,12 @@ app_name = 'app'
 
 
 urlpatterns = [
-    path('home/' ,Home , name='home' ),
-
+    path('', Home, name='home'),
+    path('contact/', Contact, name='contact'),
+    path('health/', Health, name='health'),
+    path('news/', News, name='news'),
+    path('client/', Client, name='client'),
+    path('medicine/', Medicine, name='medicine'),
     path('logout/' ,Logout_view , name='logout' ),
     path('loginPhone/' , login_phone , name='loginPhone'),
     path('verify_login_phone/' , verify_login_phone , name='verify_login_phone'),

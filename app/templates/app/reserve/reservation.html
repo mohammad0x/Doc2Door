@@ -1,46 +1,358 @@
+
+
+
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   <!-- basic -->
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <!-- mobile metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <!-- site metas -->
+   <title>ورود با شماره</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <!-- bootstrap css -->
+   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+   <!-- style css -->
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+   <!-- Responsive-->
+   <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+   <!-- fevicon -->
+   <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/gif" />
+   <!-- Scrollbar Custom CSS -->
+   <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
+   <!-- Tweaks for older IEs-->
+   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+   <!-- owl stylesheets -->
+   <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+   <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+</head>
+   <body>
+      <!-- header section start -->
+    <div class="header_section">
+         <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="logo"><a href="{% url 'app:home' %}"><img src="{% static 'images/logo.png' %}"></a></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="تغییر ناوبری">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+               <ul class="navbar-nav mr-auto">
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:home' %}">خانه</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:health' %}">سلامتی</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:medicine' %}">داروها</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:news' %}">اخبار</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:client' %}">مشتریان</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="{% url 'app:contact' %}">تماس با ما</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="#"><img src="{% static 'images/search-icon.png' %}"></a>
+                  </li>
+               </ul>
+            </div>
+         </nav>
+
+      </div>
+
+
+      <br><br><br><br>
+
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>سیستم رزرو پزشکی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* استایل اصلاح شده برای راست‌چینی کامل */
+        .medical-form {
+            max-width: 700px;
+            margin: 40px auto;
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(46, 204, 113, 0.1);
+            padding: 40px;
+            border: 1px solid rgba(46, 204, 113, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-title {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 20px 14px 50px;
+            border: 2px solid #e0e3e6;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f5f7fa;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .form-input::placeholder {
+            text-align: right;
+            direction: rtl;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 580px;
+            left: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #2ecc71, #3498db);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 40px auto 0;
+            width: fit-content;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .reservation-list {
+            max-width: 700px;
+            margin: 60px auto;
+        }
+
+        .reservation-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-right: 4px solid #2ecc71;
+            transition: all 0.3s ease;
+            text-align: right;
+        }
+
+        .reservation-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .reservation-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .reservation-price {
+            font-size: 1.2rem;
+            color: #27ae60;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 768px) {
+            .medical-form {
+                padding: 25px;
+                margin: 25px 15px;
+            }
+
+            .form-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <form method="post">
+    <!-- فرم پزشکی -->
+    <form method="post" class="medical-form">
         {% csrf_token %}
-        <p>
-            city:
-            <input type="text" name="city">
-        </p>
-        <p>
-            address:
-            <input type="text" name="address">
-        </p>
-        <p>
-            plate:
-            <input type="text" name="plate">
-        </p>
-        <p>
-            name:
-            <input type="text" name="name">
-        </p>
-        <p>
-            insurance:
-            <input type="text" name="insurance">
-        </p>
-        <p>
-            <input type="submit">
-        </p>
+        <div class="form-header">
+            <h1 class="form-title">رزرو نوبت پزشکی</h1>
+        </div>
+
+        <!-- فیلدها -->
+        <div class="form-group">
+            <label class="form-label">نام و نام خانوادگی</label>
+            <div style="position: relative;">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" name="name" class="form-input" placeholder="نام کامل">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">شهر</label>
+            <div style="position: relative;">
+                <i class="fas fa-city input-icon"></i>
+                <input type="text" name="city" class="form-input" placeholder="نام شهر">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">آدرس</label>
+            <div style="position: relative;">
+                <i class="fas fa-map-marker-alt input-icon"></i>
+                <input type="text" name="address" class="form-input" placeholder="آدرس کامل">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">پلاک</label>
+            <div style="position: relative;">
+                <i class="fas fa-home input-icon"></i>
+                <input type="text" name="plate" class="form-input" placeholder="شماره پلاک">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">شرکت بیمه</label>
+            <div style="position: relative;">
+                <i class="fas fa-shield-alt input-icon"></i>
+                <input type="text" name="insurance" class="form-input" placeholder="نام بیمه">
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+            <i class="fas fa-calendar-check"></i> ثبت نهایی
+        </button>
     </form>
-    <p>
+
+    <!-- لیست رزروها -->
+    <div class="reservation-list">
         {% for reserve in reserve %}
-            <p>
-                {{ reserve.post.title }}
-            </p>
-            <p>
-                {{ reserve.post.price }}
-            </p>
+        <div class="reservation-card">
+            <h3 class="reservation-title">{{ reserve.post.title }}</h3>
+            <div class="reservation-price">
+                <i class="fas fa-tag"></i>
+                {{ reserve.post.price }} تومان
+            </div>
+        </div>
         {% endfor %}
-    </p>
+    </div>
 </body>
 </html>
+
+
+
+  <div class="footer_section layout_padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-3 col-sm-6">
+               <div class="footer_logo"><a href="../home/index.html"><img src="{% static 'images/footer-logo.png' %}"></a></div>
+               <h1 class="adderss_text">تماس با ما</h1>
+               <div class="map_icon"><img src="{% static 'images/map-icon.png' %}"><span class="paddlin_left_0">صفحه هنگام مشاهده آن</span></div>
+               <div class="map_icon"><img src="{% static 'images/call-icon.png' %}"><span class="paddlin_left_0">+۷۵۸۶۶۵۶۵۶۶</span></div>
+               <div class="map_icon"><img src="{% static 'images/mail-icon.png' %}"><span class="paddlin_left_0">volim@gmail.com</span></div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+               <h1 class="adderss_text">پزشکان</h1>
+               <div class="hiphop_text_1">انواع مختلفی از متون لورم ایپسوم موجود است، اما اکثر آنها دچار تغییراتی شده‌اند، به‌وسیله طنز تزریقی،</div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+               <h1 class="adderss_text">لینک‌های مفید</h1>
+               <div class="Useful_text">انواع مختلفی از متون لورم ایپسوم موجود است، اما اکثر آنها دچار تغییراتی شده‌اند،</div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+               <h1 class="adderss_text">خبرنامه</h1>
+               <input type="text" class="Enter_text" placeholder="ایمیل خود را وارد کنید" name="Enter your Emil">
+               <div class="subscribe_bt"><a href="#">اشتراک</a></div>
+               <div class="social_icon">
+                  <ul>
+                     <li><a href="#"><img src="{% static 'images/fb-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/linkedin-icon.png' %}"></a></li>
+                     <li><a href="#"><img src="{% static 'images/instagram-icon.png' %}"></a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- footer section end -->
+   <!-- copyright section start -->
+   <div class="copyright_section">
+      <div class="container">
+         <p class="copyright_text">2019 All Rights Reserved. Design by <a href="https://html.design">Free html Templates</a></p>
+      </div>
+   </div>
+   <!-- copyright section end -->
+   <!-- Javascript files-->
+   <script src="{% static 'js/jquery.min.js' %}"></script>
+   <script src="{% static 'js/popper.min.js' %}"></script>
+   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+   <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+   <script src="{% static 'js/plugin.js' %}"></script>
+   <!-- sidebar -->
+   <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+   <script src="{% static 'js/custom.js' %}"></script>
+   <!-- javascript -->
+   <script src="{% static 'js/owl.carousel.js' %}"></script>
+   <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

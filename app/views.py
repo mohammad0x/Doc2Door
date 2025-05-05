@@ -18,7 +18,30 @@ from .zarinpal import *
 # Create your views here.
 @login_required(login_url='/loginPhone/')
 def Home(request):
-    return render(request, 'app/home.html')
+    return render(request, 'app/home/index.html')
+
+
+def Contact(request):
+    return render(request, 'app/contact/contact.html')
+
+
+def Health(request):
+    return render(request, 'app/health/health.html')
+
+
+def Medicine(request):
+    return render(request, 'app/medicine/medicine.html')
+
+
+def News(request):
+    return render(request, 'app/news/news.html')
+
+
+def Client(request):
+    return render(request, 'app/client/client.html')
+
+
+
 
 
 @login_required(login_url='/loginPhone/')
@@ -74,7 +97,7 @@ def verify_login_phone(request):
 
                 global verify
                 verify = True
-                return redirect('app:post')
+                return redirect('app:ProfileUpdate')
             else:
                 messages.error(request, 'کد وارد شده اشتباه است')
     else:
