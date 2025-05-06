@@ -1,0 +1,45 @@
+{% extends '../base/base.html' %}
+{% load static %}
+{% block main %}
+<div class="contact_section layout_padding margin_90">
+   <div class="container">
+      <h1 class="contact_taital">آنچه ما انجام می‌دهیم</h1>
+      <div class="news_section_2">
+         <div class="row">
+            <div class="col-md-6">
+               <div class="icon_main">
+                  <div class="icon_7"><img src="{% static 'images/icon-7.png' %}"></div>
+                  <h4 class="diabetes_text">مشاوره دیابت و چاقی</h4>
+               </div>
+               <div class="icon_main">
+                  <div class="icon_7"><img src="{% static 'images/icon-5.png' %}"></div>
+                  <h4 class="diabetes_text">زنان و زایمان</h4>
+               </div>
+               <div class="icon_main">
+                  <div class="icon_7"><img src="{% static 'images/icon-6.png' %}"></div>
+                  <h4 class="diabetes_text">آنکولوژی جراحی و پزشکی</h4>
+               </div>
+            </div>
+            <div class="col-md-6">
+               <div class="contact_box">
+                  <h1 class="book_text">رزرو وقت ملاقات</h1>
+               <form method="post">
+                  {% csrf_token %}
+                  <input type="text" class="Email_text" placeholder="نام" name="name" required>
+                  <input type="text" class="Email_text" placeholder="شماره" name="phone" required>
+                  <input type="text" class="Email_text" placeholder="ایمیل" name="email">
+                  <textarea class="massage-bt" placeholder="پیام" rows="5" id="comment" name="text" required></textarea>
+                  <div class="send_bt">
+                     <p>
+                        <br>
+                     <input type="submit" class="send_bt">
+                     </p>
+                  </div>
+               </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

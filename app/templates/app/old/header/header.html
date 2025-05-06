@@ -1,0 +1,34 @@
+{% load static %}
+<div class="header_section">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="logo"><a href="{% url 'app:home' %}"><img src="{% static 'images/logo.png' %}"></a></div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="تغییر ناوبری">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+           <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                 <a class="nav-link" href="#">خانه</a>
+              </li>
+              <li class="nav-item active">
+                 <a class="nav-link" href="#">سلامتی</a>
+              </li>
+              <li class="nav-item">
+                 <a class="nav-link" href="#">داروها</a>
+              </li>
+              <li class="nav-item">
+                 <a class="nav-link" href="#">اخبار</a>
+              </li>
+              <li class="nav-item">
+                 <a class="nav-link" href="#">مشتریان</a>
+              </li>
+              <li class="nav-item">
+                 <a class="nav-link" href="#">تماس با ما</a>
+              </li>
+              <li class="nav-item">
+                 <a class="nav-link" href="#"><img src="{% static 'images/search-icon.png' %}"></a>
+              </li>
+           </ul>
+        </div>
+     </nav>
+  </div>

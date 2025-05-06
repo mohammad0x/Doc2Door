@@ -1,61 +1,296 @@
+{% extends '../base/base.html' %}
+{% load static %}
+{% block main %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> مدیریت رزروها</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .reserv-list {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .reserv-item {
+            background: #ffffff;
+            border-radius: 25px;
+            box-shadow: 0 12px 40px rgba(46, 204, 113, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #e8f5e9;
+        }
+
+        .reserv-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(46, 204, 113, 0.12);
+        }
+
+        .reserv-header {
+            padding: 25px;
+            background: #f8faf9;
+            border-bottom: 2px solid #e8f5e9;
+        }
+
+        .reserv-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: #e8f6f0;
+            color: #2ecc71;
+            margin-left: 10px;
+        }
+
+        .status-badge.paid-false {
+            background: #fdedee;
+            color: #e74c3c;
+        }
+
+        .reserv-body {
+            padding: 25px;
+            display: grid;
+            gap: 25px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            align-items: start;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f4f3;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(46, 204, 113, 0.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #2ecc71;
+        }
+
+        .info-content {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .info-label {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .info-value {
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        .confirm-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8faf9;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .confirm-btn {
+            background: linear-gradient(135deg, #2ecc71, #3498db);
+            color: white;
+            border: none;
+            padding: 16px 45px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .confirm-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            background: #bdc3c7;
+        }
+
+        .timer {
+            font-weight: 700;
+            min-width: 35px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .reserv-list {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+
+            .reserv-item {
+                margin: 10px;
+            }
+
+            .info-grid {
+                grid-template-columns: 40px 1fr;
+                gap: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-    {% for reserv in reserv %}
-    <p>
-        شماره رزرو کننده
-        {{ reserv.user.phone }}
-    </p>
-    <p>
-        عنوان رزرو شده
-        {{ reserv.post.title }}
-    </p>
-    <p>
-        قیمت نهایی
-        {{ reserv.post.price }}
-    </p>
-    <p>
-        آدرس
-        {{ reserv.address }}
-        شهر
-        {{ reserv.city }}
-        پلاک
-        {{ reserv.plate }}
-    </p>
-    <p>
-        بیمه
-        {{ reserv.insurance }}
-    </p>
-    <p>
-        پرداخت شده
-        {{ reserv.paid }}
-    </p>
-    <p>
-        قبول شده؟
-        {{ reserv.accept }}
-    </p>
-    <p>
-        زمان درخواست
-        {{ reserv.created_at }}
-    </p>
-    <p>
-        <form method="post" action="{% url 'app:reservationRequest' reserv.id %}">
-            {% csrf_token %}
-            <p>
-                <input type="submit">
-            </p>
-        </form>
-    </p>
-    <p>
-        ***************************************************
-    </p>
+    <div class="reserv-list" dir="rtl">
+        {% for reserv in reserv %}
+        <div class="reserv-item">
+            <div class="reserv-header">
+                <h2 class="reserv-title">
+                    <i class="fas fa-calendar-check"></i>
+                    {{ reserv.post.title }}
+                    <span class="status-badge paid-{{ reserv.paid|lower }}">
+                        {% if reserv.paid %}پرداخت شده{% else %}پرداخت نشده{% endif %}
+                    </span>
+                </h2>
+                <div class="status-badge accept-{{ reserv.accept|lower }}">
+                    {% if reserv.accept %}تأیید شده{% else %}در انتظار تأیید{% endif %}
+                </div>
+            </div>
 
-    {% endfor %}
+            <div class="reserv-body">
+                <!-- ردیف اطلاعات -->
+                <div class="info-grid">
+                    <div class="info-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="info-content">
+                        <span class="info-label">شماره تماس</span>
+                        <span class="info-value">{{ reserv.user.phone }}</span>
+                    </div>
+                </div>
 
+                <div class="info-grid">
+                    <div class="info-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="info-content">
+                        <span class="info-label">مبلغ</span>
+                        <span class="info-value">{{ reserv.post.price }} تومان</span>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <span class="info-label">آدرس</span>
+                        <span class="info-value">
+                            {{ reserv.city }} - {{ reserv.address }}
+                            <span style="display: block; color: #7f8c8d; margin-top: 5px;">
+                                پلاک: {{ reserv.plate }}
+                            </span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <span class="info-label">بیمه</span>
+                        <span class="info-value">{{ reserv.insurance }}</span>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="info-content">
+                        <span class="info-label">زمان درخواست</span>
+                        <span class="info-value">{{ reserv.created_at }}</span>
+                    </div>
+                </div>
+
+                <div class="confirm-section">
+                    <form method="post"
+                          action="{% url 'app:reservationRequest' reserv.id %}"
+                          onsubmit="return handleConfirm(event, '{{ reserv.id }}')">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="confirm-btn"
+                                id="btn-{{ reserv.id }}"
+                                data-confirmed="false">
+                            <span class="timer" id="timer-{{ reserv.id }}"></span>
+                            <i class="fas fa-check-double"></i>
+                            {% if reserv.accept %}لغو تأیید{% else %}تأیید رزرو{% endif %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+<script>
+    const cooldown = 4;
+    const timers = {};
+
+    function handleConfirm(event, reservId) {
+        event.preventDefault();
+        const btn = document.getElementById(`btn-${reservId}`);
+        const timerSpan = document.getElementById(`timer-${reservId}`);
+
+        if (!timers[reservId]) {
+            btn.disabled = true;
+            let seconds = cooldown;
+
+            timers[reservId] = setInterval(() => {
+                timerSpan.textContent = seconds;
+                seconds--;
+
+                if(seconds < 0) {
+                    clearInterval(timers[reservId]);
+                    delete timers[reservId];
+                    btn.disabled = false;
+                    timerSpan.textContent = '';
+                    btn.innerHTML = `<i class="fas fa-check-circle"></i> کلیک نهایی`;
+                }
+            }, 1000);
+        } else {
+            clearInterval(timers[reservId]);
+            delete timers[reservId];
+            event.target.submit();
+        }
+    }
+</script>
 </body>
 </html>
+
+
+{% endblock %}

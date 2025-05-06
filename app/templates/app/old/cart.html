@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        {% for reserv in reserve %}
+            <p>عنوان :{{ reserv.post.title }}</p>
+            <p>شهر : {{ reserv.city }}</p>
+            <p>آدرس : {{ reserv.address }}</p>
+            قبول شده :<p>{{ reserv.accept }}</p>
+        {% endfor %}
+        {% if price and price != 0 %}
+            <form action="{% url 'app:request' %}" method="post">
+                {% csrf_token %}
+                <p> 
+                    جمع :
+                    <input type="text" name="amount" value="{{ price }}">
+                </p>
+                <p>
+                    توضیحات  :
+                    <input type="text" name="description" value="خرید">
+                </p>
+                <p>
+                    <input type="submit">
+                </p>
+
+            </form>
+  
+        {% endif %}
+
+    </p>
+</body>
+</html>

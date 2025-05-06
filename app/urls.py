@@ -6,6 +6,7 @@ app_name = 'app'
 
 urlpatterns = [
     path('home/' ,Home , name='home' ),
+    path('contact/' , contact , name="contact"),
 
     path('logout/' ,Logout_view , name='logout' ),
     path('loginPhone/' , login_phone , name='loginPhone'),
@@ -30,4 +31,6 @@ urlpatterns = [
 
     path('send_request/', request_payment, name='request'),
     path('verify/', verify , name='verify'),
+
+    path('test/' , test , name='tset')
 ]

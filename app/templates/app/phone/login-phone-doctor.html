@@ -1,19 +1,294 @@
+{% extends '../base/base.html' %}
+{% load static %}
+{% block main %}
+
+<br><br><br><br><br>
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+   <meta charset="UTF-8">
+   <title>ورود با شماره تلفن</title>
+   <style>.phone-form-container * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+
+      .phone-form-container {
+         --primary-color: #7e57c2;
+         --secondary-color: #ff8a65;
+         --accent-color: #4fc3f7;
+         --text-color: #2d3436;
+         --light-bg: #f5f6fa;
+         --white: #ffffff;
+
+         position: relative;
+         width: 100%;
+         max-width: 420px;
+         margin: 40px auto;
+         isolation: isolate;
+      }
+
+      .form-decoration {
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         z-index: -1;
+         overflow: hidden;
+         border-radius: 24px;
+      }
+
+      .form-decoration::before,
+      .form-decoration::after {
+         content: '';
+         position: absolute;
+         border-radius: 50%;
+         filter: blur(40px);
+         opacity: 0.15;
+      }
+
+      .form-decoration::before {
+         width: 200px;
+         height: 200px;
+         top: -50px;
+         right: -50px;
+         animation: float 8s ease-in-out infinite;
+      }
+
+      .form-decoration::after {
+         width: 150px;
+         height: 150px;
+         bottom: -30px;
+         left: -30px;
+      }
+
+      .phone-form-card {
+         background: rgba(255, 255, 255, 0.96);
+         backdrop-filter: blur(12px);
+         border-radius: 24px;
+         padding: 40px 30px;
+         box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+         border: 1px solid rgba(255, 255, 255, 0.2);
+         overflow: hidden;
+         transform: translateY(0);
+         transition: transform 0.4s ease, box-shadow 0.4s ease;
+      }
+
+      .phone-form-card:hover {
+         transform: translateY(-5px);
+         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
+
+      .form-header {
+         text-align: center;
+         margin-bottom: 30px;
+         position: relative;
+      }
+
+      .form-header h2 {
+         color: var(--primary-color);
+         font-size: 1.8rem;
+         font-weight: 700;
+         margin-bottom: 15px;
+         display: inline-flex;
+         align-items: center;
+         gap: 10px;
+      }
+
+      .form-header h2 i {
+         font-size: 1.5em;
+         color: var(--accent-color);
+      }
+
+      .form-header p {
+         color: var(--text-color);
+         opacity: 0.8;
+         font-size: 0.95rem;
+      }
+
+      .form-group {
+         margin-bottom: 25px;
+         position: relative;
+      }
+
+      .form-label {
+         display: block;
+         margin-bottom: 10px;
+         color: var(--text-color);
+         font-weight: 500;
+         font-size: 0.95rem;
+         padding-right: 5px;
+      }
+
+      .input-wrapper {
+         position: relative;
+      }
+
+      .form-input {
+         width: 100%;
+         padding: 16px 20px 16px 50px;
+         border: 2px solid #e0e0e0;
+         border-radius: 14px;
+         font-size: 1rem;
+         transition: all 0.3s ease;
+         background-color: var(--white);
+         box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04);
+         direction: ltr;
+         text-align: left;
+      }
+
+      .form-input:focus {
+         border-color: var(--primary-color);
+         box-shadow: 0 0 0 4px rgba(126, 87, 194, 0.1);
+         outline: none;
+      }
+
+      .input-icon {
+         position: absolute;
+         left: 18px;
+         top: 50%;
+         transform: translateY(-50%);
+         color: var(--primary-color);
+         font-size: 1.2rem;
+         transition: all 0.3s ease;
+      }
+
+      .form-input:focus + .input-icon {
+         color: var(--accent-color);
+         transform: translateY(-50%) scale(1.1);
+      }
+
+      .submit-btn {
+         width: 100%;
+         padding: 16px;
+         border: none;
+         border-radius: 14px;
+         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+         color: var(--white);
+         font-size: 1.1rem;
+         font-weight: 600;
+         cursor: pointer;
+         transition: all 0.4s ease;
+         box-shadow: 0 6px 20px rgba(126, 87, 194, 0.3);
+         position: relative;
+         overflow: hidden;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         gap: 10px;
+      }
+
+      .submit-btn:hover {
+         transform: translateY(-3px);
+         box-shadow: 0 10px 25px rgba(126, 87, 194, 0.4);
+      }
+
+      .submit-btn:active {
+         transform: translateY(0);
+      }
+
+      .submit-btn i {
+         transition: transform 0.3s ease;
+      }
+
+      .submit-btn:hover i {
+         transform: translateX(5px);
+      }
+
+      @keyframes float {
+         0%, 100% { transform: translate(0, 0); }
+         50% { transform: translate(10px, 10px); }
+      }
+
+      @keyframes pulse {
+         0% { transform: scale(1); }
+         50% { transform: scale(1.05); }
+         100% { transform: scale(1); }
+      }
+
+      .phone-form-card {
+         animation: fadeInUp 0.6s ease-out;
+      }
+
+      .error-state {
+         animation: shake 0.5s ease;
+      }
+
+      @keyframes shake {
+         0%, 100% { transform: translateX(0); }
+         20%, 60% { transform: translateX(-5px); }
+         40%, 80% { transform: translateX(5px); }
+      }
+   </style>
 </head>
 <body>
-    <form method="post">
-        {% csrf_token %}
-        <p>
-          phone:  <input type="text" name="phone">
-        </p>
-        <p>
-            <input type="submit">
-        </p>
-    </form>
+
+   <div class="phone-form-container">
+      <div class="form-decoration"></div>
+
+      <div class="phone-form-card animate__animated animate__fadeInUp">
+         <div class="form-header">
+            <h2><i class="fas fa-mobile-alt"></i> ورود با شماره موبایل</h2>
+            <p>کد تأیید به شماره شما ارسال خواهد شد</p>
+         </div>
+
+         <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+               <label for="phone">شماره تلفن همراه</label>
+               <div class="input-wrapper">
+                  <input type="tel" name="phone" id="phone" class="form-input" placeholder="0912 345 6789" pattern="09\d{9}" required>
+                  <i class="fas fa-phone input-icon"></i>
+               </div>
+            </div>
+
+            <input type="submit" class="submit-btn">
+               دریافت کد تأیید
+               <i class="fas fa-paper-plane"></i>
+            </button>
+         </form>
+      </div>
+   </div>
+
+   <script>
+      document.addEventListener("DOMContentLoaded", function() {
+         const phoneInput = document.getElementById("phone");
+         const formCard = document.querySelector(".phone-form-card");
+         const submitBtn = document.querySelector(".submit-btn");
+
+         phoneInput.addEventListener("input", function() {
+            if(this.validity.valid) {
+               this.style.borderColor = "#4caf50";
+               this.nextElementSibling.style.color = "#4caf50";
+            } else {
+               this.style.borderColor = "#e0e0e0";
+               this.nextElementSibling.style.color = "#7e57c2";
+            }
+         });
+
+         formCard.addEventListener("mouseenter", function() {
+            this.style.transform = "translateY(-5px)";
+            this.style.boxShadow = "0 20px 50px rgba(0, 0, 0, 0.2)";
+         });
+
+         formCard.addEventListener("mouseleave", function() {
+            this.style.transform = "translateY(0)";
+            this.style.boxShadow = "0 15px 40px rgba(0, 0, 0, 0.12)";
+         });
+
+         submitBtn.addEventListener("click", function() {
+            if(!phoneInput.validity.valid) {
+               phoneInput.classList.add("error-state");
+               setTimeout(() => {
+                  phoneInput.classList.remove("error-state");
+               }, 500);
+            }
+         });
+      });
+   </script>
+
 </body>
 </html>
+<br><br>
+
+{% endblock %}

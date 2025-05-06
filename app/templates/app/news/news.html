@@ -1,15 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    {% for news in news  %}
-        <p>
-            <a href="{% url 'app:singleNews' news.slug %}">{{ news.title }}</a> 
-        </p>
-    {% endfor %}
-</body>
-</html>
+{% extends '../base/base.html' %}
+{% load static %}
+{% block main %}
+
+<div class="news_section layout_padding">
+   <div class="container">
+      <h1 class="health_taital">چرا مراقبت‌های خانگی ۲۴ ساعته را انتخاب کنیم</h1>
+      <p class="health_text">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</p>
+      <div class="news_section_2 layout_padding">
+         <div class="row">
+            <div class="col-lg-4 col-sm-6">
+               <div class="box_main">
+                  <div class="icon_1"><img src="{% static 'images/icon-2.png' %}"></div>
+                  <h4 class="daily_text">متخصصان مراقبت‌های روزانه</h4>
+               </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+               <div class="box_main active">
+                  <div class="icon_1"><img src="{% static 'images/icon-3.png' %}"></div>
+                  <h4 class="daily_text_1">دسترسی ۲۴/۷</h4>
+               </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+               <div class="box_main">
+                  <div class="icon_1"><img src="{% static 'images/icon-4.png' %}"></div>
+                  <h4 class="daily_text_1">مراقبت متعادل</h4>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="getquote_bt"><a href="#">دریافت پیشنهاد <span><img src="{% static 'images/right-arrow.png' %}"></span></a></div>
+   </div>
+</div>
+
+{% endblock %}

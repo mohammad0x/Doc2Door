@@ -1,51 +1,171 @@
+{% extends '../base/base.html' %}
+{% load static %}
+{% block main %}
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>پروفایل‌های نمونه</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;700;900&display=swap');
+
+        * {
+
+        }
+
+        body {
+
+        }
+
+        .profile-container {
+                        font-family: 'Vazirmatn', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+                        background: #f0f2f5;
+            padding: 2rem;
+
+            padding: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid white;
+            margin: -60px auto 1rem;
+            background: #ecf0f1;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-id {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .profile-content {
+            padding: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .info-item i {
+            width: 30px;
+            color: #3498db;
+            font-size: 1.1rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #e9ecef;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.2rem;
+        }
+    </style>
 </head>
 <body>
-    {% for profile in profile %}
-        <p>
-            {{ profile.first_name }}
-        </p>
-        <p>
-            {{ profile.last_name }}
-        </p>
-        <p>
-            {{ profile.nationality_code }}
-        </p>
-        <p>
-            {{ profile.personal_code }}
-        </p>
-        <p>
-            {{ profile.date_of_birth }}
-        </p>
-        <p>
-            {{ profile.city }}
-        </p>
-        <p>
-            {{ profile.address }}
-        </p>
-        <p>
-            موجودی حساب{{ profile.qty }}
-        </p>
-        {% if profile.verify == False %}
-            حساب شما تایید نشده در انتظار تایید{{ profile.verify }}
-        {% endif %}
-        {% if profile.verify == True %}
-            حساب شما تایید شده است{{ profile.verify }}
-        {% endif %}
-        <p>
+ {% for profile in profile %}
+    <div class="profile-container">
+        <!-- پروفایل نمونه 1 -->
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar"></div>
+                <h2 class="profile-name">{{ profile.first_name }} {{ profile.last_name }}</h2>
+                <div class="profile-id">کد ملی: {{ profile.nationality_code }}</div>
+            </div>
+
+            <div class="profile-content">
+                <div class="info-item">
+                    <i class="fas fa-id-card"></i>
+                    کد نظام پزشکی: {{ profile.personal_code }}
+                </div>
+
+                <div class="info-item">
+                    <i class="fas fa-birthday-cake"></i>
+                    تاریخ تولد{{ profile.date_of_birth }}
+                </div>
+
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    محل سکونت:
+                    <div class="badge">{{ profile.city }}</div>
+                    <div class="badge">{{ profile.address }}</div>
+                </div>
+
+                <h3 style="margin:1rem 0;color:#2c3e50;">مستندات</h3>
+                <div class="gallery">
+                    <img src="{{ profile.photo.url }}" alt="">
+            <img src="{{ profile.nationality_photo.url }}">
             <img src="{{ profile.photo.url }}" alt="" width="250" height="250">
-        </p>
-        <p>
-            <img src="{{ profile.nationality_photo.url }}" alt="" width="250" height="250">
-        </p>
-        <p>
-            <img src="{{ profile.photo.url }}" alt="" width="250" height="250">
-        </p>
-    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+
+    {% endfor %}
+
+
+</body>
+</html>
+<br><br>
+{% endblock %}

@@ -8,5 +8,6 @@ admin.site.register(News)
 class reseveAdmin(admin.ModelAdmin):
     list_filter = ['accept' , 'created_at']
 admin.site.register(Reserve ,reseveAdmin )
+admin.site.register(Contact)
 admin.site.register(Category)
 

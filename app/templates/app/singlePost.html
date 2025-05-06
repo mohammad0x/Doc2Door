@@ -1,22 +1,219 @@
+{% extends '../base/base.html' %}
+{% load static %}
+{% block main %}
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>پروفایل دکتر</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .compact-doctor-card {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .compact-profile {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 180, 148, 0.15);
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            position: relative;
+            border: 1px solid rgba(0, 180, 148, 0.1);
+        }
+
+        .compact-avatar {
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .compact-icon {
+            font-size: 8rem;
+            color: white;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .compact-details {
+            padding: 30px;
+        }
+
+        .compact-name {
+            font-size: 2rem;
+            color: #2d3436;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .compact-specialty {
+            font-size: 1.1rem;
+            color: #00b894;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .compact-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .compact-info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 180, 148, 0.1);
+        }
+
+        .compact-info-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .compact-info-label {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .compact-info-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        .compact-price {
+            font-size: 1.2rem;
+            color: #00b894;
+            font-weight: 700;
+        }
+
+        .compact-reserve-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #00b894, #55efc4);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 25px;
+            box-shadow: 0 5px 15px rgba(0, 180, 148, 0.2);
+        }
+
+        .compact-reserve-btn i {
+            margin-left: 8px;
+        }
+
+        .compact-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #00b894;
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .compact-profile {
+                grid-template-columns: 1fr;
+            }
+
+            .compact-avatar {
+                padding: 40px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <p>
-        {{ single.title }}
-    </p>
-    <p>
-        {{ single.slug }}
-    </p>
-    <p>
-        {{ single.price }}
-    </p>
-    <p>
-        <a href="{% url 'app:reservationView' single.id %}">RESERVE</a>
-    </p>
+    <div class="compact-doctor-card">
+        <div class="compact-profile">
+            <div class="compact-badge">
+                <i class="fas fa-award"></i> مجرب
+            </div>
+
+            <div class="compact-avatar">
+                <i class="fas fa-user-md compact-icon"></i>
+            </div>
+
+            <div class="compact-details">
+                <h1 class="compact-name">{{ single.title }}</h1>
+                <span class="compact-specialty">پزشک عمومی</span>
+
+                <div class="compact-info-grid">
+                    <div class="compact-info-card">
+                        <div class="compact-info-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div class="compact-info-label">شناسه پزشک</div>
+                        <div class="compact-info-value">{{ single.slug }}</div>
+                    </div>
+
+                    <div class="compact-info-card">
+                        <div class="compact-info-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="compact-info-label">هزینه ویزیت</div>
+                        <div class="compact-info-value">
+                            <span class="compact-price">{{ single.price }} تومان</span>
+                        </div>
+                    </div>
+
+                    <div class="compact-info-card">
+                        <div class="compact-info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="compact-info-label">ساعات کاری</div>
+                        <div class="compact-info-value">8 صبح تا 8 شب</div>
+                    </div>
+
+                    <div class="compact-info-card">
+                        <div class="compact-info-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="compact-info-label">امتیاز</div>
+                        <div class="compact-info-value">4.9 از 5</div>
+                    </div>
+                </div>
+
+                <a href="{% url 'app:reservationView' single.id %}" class="compact-reserve-btn">
+                    <i class="fas fa-calendar-check"></i>
+                    رزرو نوبت
+                </a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+
+
+
+
+{% endblock %}

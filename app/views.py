@@ -18,13 +18,27 @@ from .zarinpal import *
 # Create your views here.
 @login_required(login_url='/loginPhone/')
 def Home(request):
-    return render(request, 'app/home.html')
+    return render(request, 'app/home/index.html')
 
 
 @login_required(login_url='/loginPhone/')
 def Logout_view(request):
     logout(request)
     return redirect('app:loginPhone')
+
+
+def contact (request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        phone = request.POST['phone']
+        email = request.POST['email']
+        text = request.POST['text']
+
+        Contact.objects.create(name = name , phone = phone , 
+                               email = email , text = text)
+        return render(request, 'app/home/index.html')
+    return render(request , 'app/contact/contact.html')
+
 
 
 def login_phone(request):
@@ -342,3 +356,9 @@ def verify(request):
 
     else:
         return HttpResponse("پرداخت شما ناموفق بود.")
+    
+
+
+
+def test(request):
+    return render(request , 'app/medicine/medicine.html')

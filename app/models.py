@@ -161,3 +161,13 @@ class News(models.Model):
 class Accept(models.Model):
     reserve = models.ForeignKey(Reserve , on_delete=models.CASCADE , related_name = 'acceptReserve')
     user = models.ForeignKey(MyUser , on_delete=models.CASCADE)
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=11)
+    email = models.EmailField(max_length=250 , null=True)
+    text = models.TextField()
+
+    def __str__(self):
+        return self.phone

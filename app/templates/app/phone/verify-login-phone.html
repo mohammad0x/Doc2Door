@@ -1,19 +1,311 @@
+{% extends '../base/base.html' %}
+{% load static %}
+{% block main %}
+<br><br><br><br><br>
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>تأیید کد یکبار مصرف</title>
+    <style>
+        .verify-container * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .verify-container {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --accent-color: #ff5e62;
+            --text-color: #2d3436;
+            --white: #ffffff;
+
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin: 50px auto;
+            isolation: isolate;
+        }
+
+        .verify-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .verify-bg::before,
+        .verify-bg::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            animation: float 12s linear infinite;
+        }
+
+        .verify-bg::before {
+            width: 250px;
+            height: 250px;
+            top: -30%;
+            left: -10%;
+        }
+
+        .verify-bg::after {
+            width: 180px;
+            height: 180px;
+            bottom: -15%;
+            right: -8%;
+            animation-direction: reverse;
+        }
+
+        .verify-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 45px 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .verify-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .verify-header {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+        }
+
+        .verify-header h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .verify-header h2 i {
+            color: var(--accent-color);
+            font-size: 1.8em;
+        }
+
+        .verify-header p {
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .code-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            direction: ltr;
+        }
+
+        .code-input {
+            width: 55px;
+            height: 65px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background-color: var(--white);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .code-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+            outline: none;
+            transform: translateY(-3px);
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(106, 17, 203, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(106, 17, 203, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .verify-btn:active {
+            transform: translateY(0);
+        }
+
+        .verify-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .verify-btn:hover i {
+            animation: bounce 0.6s ease infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10px, 10px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .error-shake {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .countdown {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-    <form method="post">
-        {% csrf_token %}
-        <p>
-           Verify: <input type="text" name="verify_code">
-        </p>
-        <p>
-            <input type="submit">
-        </p>
-    </form>
+
+    <div class="verify-container">
+        <div class="verify-bg"></div>
+
+        <div class="verify-card animate__animated animate__fadeInUp">
+            <div class="verify-header">
+                <h2><i class="fas fa-shield-alt"></i> تأیید هویت</h2>
+                <p>کد ۶ رقمی ارسال شده به شماره ۰۹۱۲••••۷۸۹ را وارد کنید</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="code-inputs">
+                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]">
+                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]">
+                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]">
+                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]">
+                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]">
+                    <input type="text" maxlength="1" class="code-input" pattern="[0-9]">
+                </div>
+
+                <input type="hidden" name="verify_code" id="full_code">
+
+                <button type="submit" class="verify-btn">
+                    تأیید نهایی
+                    <i class="fas fa-check-circle"></i>
+                </button>
+            </form>
+
+            <div class="countdown" id="countdown">
+                ارسال مجدد کد پس از ۱:۵۹
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const codeInputs = document.querySelectorAll('.code-input');
+            const fullCodeInput = document.getElementById('full_code');
+            const verifyBtn = document.querySelector('.verify-btn');
+            const countdown = document.getElementById('countdown');
+
+            codeInputs[0].focus();
+
+            codeInputs.forEach((input, index) => {
+                input.addEventListener('input', function() {
+                    if(this.value.length === 1) {
+                        if(index < codeInputs.length - 1) {
+                            codeInputs[index + 1].focus();
+                        } else {
+                            this.blur();
+                        }
+                    }
+                    updateFullCode();
+                });
+
+                input.addEventListener('keydown', function(e) {
+                    if(e.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                        codeInputs[index - 1].focus();
+                    }
+                });
+            });
+
+            function updateFullCode() {
+                let code = '';
+                codeInputs.forEach(input => {
+                    code += input.value;
+                });
+                fullCodeInput.value = code;
+            }
+
+            const verifyCard = document.querySelector('.verify-card');
+            verifyCard.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.2)';
+            });
+
+            verifyCard.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.15)';
+            });
+
+            let timeLeft = 119; // 1:59 ثانیه
+            const timer = setInterval(() => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdown.textContent = `ارسال مجدد کد پس از ${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+                if(timeLeft <= 0) {
+                    clearInterval(timer);
+                    countdown.innerHTML = '<a href="#" style="color: var(--primary-color); font-weight: 700;">ارسال مجدد کد</a>';
+                } else {
+                    timeLeft--;
+                }
+            }, 1000);
+        });
+    </script>
+
 </body>
 </html>
+      <br><br>
+{% endblock %}

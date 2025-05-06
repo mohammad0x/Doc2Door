@@ -1,46 +1,219 @@
+{% extends '../base/base.html' %}
+{% load static %}
+{% block main %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>سیستم رزرو پزشکی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* استایل اصلاح شده برای راست‌چینی کامل */
+        .medical-form {
+            max-width: 700px;
+            margin: 40px auto;
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(46, 204, 113, 0.1);
+            padding: 40px;
+            border: 1px solid rgba(46, 204, 113, 0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-title {
+            font-size: 2.2rem;
+            color: #2c3e50;
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 20px 14px 50px;
+            border: 2px solid #e0e3e6;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f5f7fa;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .form-input::placeholder {
+            text-align: right;
+            direction: rtl;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 580px;
+            left: auto;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #2ecc71, #3498db);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 40px auto 0;
+            width: fit-content;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .reservation-list {
+            max-width: 700px;
+            margin: 60px auto;
+        }
+
+        .reservation-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-right: 4px solid #2ecc71;
+            transition: all 0.3s ease;
+            text-align: right;
+        }
+
+        .reservation-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .reservation-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .reservation-price {
+            font-size: 1.2rem;
+            color: #27ae60;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 768px) {
+            .medical-form {
+                padding: 25px;
+                margin: 25px 15px;
+            }
+
+            .form-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <form method="post">
+    <!-- فرم پزشکی -->
+    <form method="post" class="medical-form">
         {% csrf_token %}
-        <p>
-            city:
-            <input type="text" name="city">
-        </p>
-        <p>
-            address:
-            <input type="text" name="address">
-        </p>
-        <p>
-            plate:
-            <input type="text" name="plate">
-        </p>
-        <p>
-            name:
-            <input type="text" name="name">
-        </p>
-        <p>
-            insurance:
-            <input type="text" name="insurance">
-        </p>
-        <p>
-            <input type="submit">
-        </p>
+        <div class="form-header">
+            <h1 class="form-title">رزرو نوبت پزشکی</h1>
+        </div>
+
+        <!-- فیلدها -->
+        <div class="form-group">
+            <label class="form-label">نام و نام خانوادگی</label>
+            <div style="position: relative;">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" name="name" class="form-input" placeholder="نام کامل">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">شهر</label>
+            <div style="position: relative;">
+                <i class="fas fa-city input-icon"></i>
+                <input type="text" name="city" class="form-input" placeholder="نام شهر">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">آدرس</label>
+            <div style="position: relative;">
+                <i class="fas fa-map-marker-alt input-icon"></i>
+                <input type="text" name="address" class="form-input" placeholder="آدرس کامل">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">پلاک</label>
+            <div style="position: relative;">
+                <i class="fas fa-home input-icon"></i>
+                <input type="text" name="plate" class="form-input" placeholder="شماره پلاک">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">شرکت بیمه</label>
+            <div style="position: relative;">
+                <i class="fas fa-shield-alt input-icon"></i>
+                <input type="text" name="insurance" class="form-input" placeholder="نام بیمه">
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+            <i class="fas fa-calendar-check"></i> ثبت نهایی
+        </button>
     </form>
-    <p>
+
+    <!-- لیست رزروها -->
+    <div class="reservation-list">
         {% for reserve in reserve %}
-            <p>
-                {{ reserve.post.title }}
-            </p>
-            <p>
-                {{ reserve.post.price }}
-            </p>
+        <div class="reservation-card">
+            <h3 class="reservation-title">{{ reserve.post.title }}</h3>
+            <div class="reservation-price">
+                <i class="fas fa-tag"></i>
+                {{ reserve.post.price }} تومان
+            </div>
+        </div>
         {% endfor %}
-    </p>
+    </div>
 </body>
 </html>
+
+
+
+{% endblock %}
