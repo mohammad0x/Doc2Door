@@ -88,7 +88,7 @@ def verify_login_phone(request):
 
                 global verify
                 verify = True
-                return redirect('app:post')
+                return redirect('app:postView')
             else:
                 messages.error(request, 'کد وارد شده اشتباه است')
     else:

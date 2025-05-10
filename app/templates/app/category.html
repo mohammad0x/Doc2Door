@@ -1,26 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends './base/base.html' %}
+{% load static %}
+{% block main %}
+
+<div class="custom-category-container" style="max-width: 600px; margin: 40px auto; padding: 0 15px; direction: rtl; font-family: 'Vazir', Tahoma, sans-serif;">
+    <style>
+        .custom-category-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+        }
+
+        .custom-category-header h1 {
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .custom-category-header h1:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            border-radius: 3px;
+        }
+
+        .custom-post-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border-right: 3px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .custom-post-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-post-title {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .custom-post-meta {
+            color: #7f8c8d;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            text-align: right;
+        }
+
+        .custom-post-price {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            text-align: right;
+            border-radius: 15px;
+            display: inline-block;
+            font-weight: 500;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+
+        .custom-category-tags {
+            margin-top: 12px;
+            text-align: right;
+        }
+
+        .custom-category-tag {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 12px;
+            border-radius: 15px;
+            margin-left: 8px;
+            margin-bottom: 8px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .custom-category-tag:hover {
+            background: #c8e6c9;
+            transform: translateY(-2px);
+        }
+
+        .fa {
+            margin-left: 5px;
+        }
+    </style>
+
+    <div class="custom-category-header">
+        <h1>
+            <i class="fas fa-folder-open"></i>
+            مطالب دسته بندی
+        </h1>
+    </div>
+
     {% for category in category.post.all %}
-        <p>
-            {{ category.title }}
-        </p>
-        <p>
-            {{ category.slug }}
-        </p>
-        <p>
-            {{ category.price }}
-        </p>
-        <p>
+    <div class="custom-post-card">
+        <h3 class="custom-post-title">{{ category.title }}</h3>
+        <div class="custom-post-meta">
+            <span>
+                <i class="fas fa-link"></i>
+                {{ category.slug }}
+            </span>
+        </div>
+        <div class="custom-post-price">
+            <i class="fas fa-tag"></i>
+            {{ category.price }} تومان
+        </div>
+        <div class="custom-category-tags">
             {% for cat in category.category.all %}
-                <a href="#">#{{cat.name}}</a>
+                <a href="#" class="custom-category-tag">
+                    <i class="fas fa-hashtag"></i>
+                    {{cat.name}}
+                </a>
             {% endfor %}
-        </p>
+        </div>
+    </div>
     {% endfor %}
-</body>
-</html>
+</div>
+
+{% endblock %}
+
+
+

@@ -1,37 +1,355 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <p>
-        {% for reserv in reserve %}
-            <p>عنوان :{{ reserv.post.title }}</p>
-            <p>شهر : {{ reserv.city }}</p>
-            <p>آدرس : {{ reserv.address }}</p>
-            قبول شده :<p>{{ reserv.accept }}</p>
-        {% endfor %}
-        {% if price and price != 0 %}
-            <form action="{% url 'app:request' %}" method="post">
-                {% csrf_token %}
-                <p> 
-                    جمع :
-                    <input type="text" name="amount" value="{{ price }}">
-                </p>
-                <p>
-                    توضیحات  :
-                    <input type="text" name="description" value="خرید">
-                </p>
-                <p>
-                    <input type="submit">
-                </p>
+{% extends './base/base.html' %}
+{% load static %}
+{% block main %}
 
-            </form>
-  
-        {% endif %}
+<div class="custom-reservations-container">
+    <!-- استایل‌های اختصاصی راست‌چین شده -->
+    <style>
+        .custom-reservations-container {
+            font-family: 'Vazir', -apple-system, BlinkMacSystemFont, sans-serif;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            direction: rtl;
+            text-align: right;
+        }
 
-    </p>
-</body>
-</html>
+        .custom-reservation-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .custom-reservation-header h1 {
+            color: #2c3e50;
+            font-weight: 700;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .custom-reservation-header h1:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            border-radius: 3px;
+        }
+
+        .custom-reservation-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: none;
+        }
+
+        .custom-reservation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .custom-card-header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .custom-card-body {
+            padding: 25px;
+        }
+
+        .custom-reservation-item {
+            display: flex;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .custom-reservation-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #6e8efb;
+            font-size: 1.1rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .custom-reservation-label {
+            font-weight: 600;
+            color: #7f8c8d;
+            min-width: 90px;
+            font-size: 0.95rem;
+            margin-left: 15px;
+        }
+
+        .custom-reservation-value {
+            flex-grow: 1;
+            color: #2c3e50;
+            font-size: 1rem;
+            text-align: right;
+        }
+
+        .custom-status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .custom-status-pending {
+            background-color: #fff8e1;
+            color: #ffa000;
+        }
+
+        .custom-status-accepted {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .custom-payment-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #6e8efb;
+        }
+
+        .custom-payment-title {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .custom-payment-title:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            border-radius: 3px;
+        }
+
+        .custom-form-group {
+            margin-bottom: 25px;
+        }
+
+        .custom-form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            text-align: right;
+        }
+
+        .custom-input-group {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+            direction: ltr; /* برای فیلدهای عددی */
+        }
+
+        .custom-input-group-text {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 0.675rem 15px;
+            color: #6e8efb;
+            font-weight: 600;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .custom-form-control {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: #f8f9fa;
+            text-align: left;
+            direction: ltr;
+        }
+
+        .custom-form-control:focus {
+            outline: none;
+            border-color: #6e8efb;
+            box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.15);
+            background-color: #fff;
+        }
+
+        .custom-btn-primary {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(110, 142, 251, 0.3);
+            direction: rtl;
+        }
+
+        .custom-btn-primary:hover {
+            background: linear-gradient(135deg, #5e7eea, #9667d3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(110, 142, 251, 0.4);
+        }
+
+        .custom-btn-primary i {
+            margin-right: 8px;
+            margin-left: 0;
+        }
+
+        @media (max-width: 768px) {
+            .custom-reservation-item {
+                flex-direction: row-reverse;
+                align-items: center;
+            }
+
+            .custom-reservation-icon {
+                margin-right: 0;
+                margin-left: 10px;
+            }
+
+            .custom-payment-section {
+                padding: 20px;
+            }
+
+            .custom-card-body {
+                padding: 20px;
+            }
+
+            .custom-reservation-label {
+                margin-left: 0;
+                margin-right: 10px;
+            }
+        }
+    </style>
+
+    <div class="custom-reservation-header">
+        <h1>
+            <i class="fas fa-calendar-check"></i>
+            رزروهای من
+        </h1>
+    </div>
+
+    {% for reserv in reserve %}
+    <div class="custom-reservation-card">
+        <div class="custom-card-header">
+            <span>
+                <i class="fas fa-clipboard-list"></i>
+                جزئیات رزرو
+            </span>
+            <span class="custom-status-badge {% if reserv.accept %}custom-status-accepted{% else %}custom-status-pending{% endif %}">
+                {% if reserv.accept %}
+                    <i class="fas fa-check-circle"></i>
+                    پرداخت شده
+                {% else %}
+                    <i class="fas fa-hourglass-half"></i>
+                    در انتظار پرداخت
+                {% endif %}
+            </span>
+        </div>
+        <div class="custom-card-body">
+            <div class="custom-reservation-item">
+                <div class="custom-reservation-icon" style="background: linear-gradient(135deg, #f6f0ff 0%, #d8c3ff 100%); color: #8a2be2;">
+                    <i class="fas fa-signature"></i>
+                </div>
+                <span class="custom-reservation-label">عنوان:</span>
+                <span class="custom-reservation-value">{{ reserv.post.title }}</span>
+            </div>
+
+            <div class="custom-reservation-item">
+                <div class="custom-reservation-icon" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); color: #1976d2;">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <span class="custom-reservation-label">شهر:</span>
+                <span class="custom-reservation-value">{{ reserv.city }}</span>
+            </div>
+
+            <div class="custom-reservation-item">
+                <div class="custom-reservation-icon" style="background: linear-gradient(135deg, #fff8e1 0%, #ffe0b2 100%); color: #ff8f00;">
+                    <i class="fas fa-map-pin"></i>
+                </div>
+                <span class="custom-reservation-label">آدرس:</span>
+                <span class="custom-reservation-value">{{ reserv.address }}</span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% if price and price != 0 %}
+    <div class="custom-payment-section">
+        <h3 class="custom-payment-title">
+            <i class="fas fa-money-bill-wave"></i>
+            پرداخت
+        </h3>
+
+        <form action="{% url 'app:request' %}" method="post">
+            {% csrf_token %}
+
+            <div class="custom-form-group">
+                <label class="custom-form-label">
+                    <i class="fas fa-coins"></i>
+                    مبلغ قابل پرداخت:
+                </label>
+                <div class="custom-input-group">
+                    <input type="text" class="custom-form-control" name="amount" value="{{ price }}" readonly>
+                    <span class="custom-input-group-text">تومان</span>
+                </div>
+            </div>
+
+            <div class="custom-form-group">
+                <label class="custom-form-label">
+                    <i class="fas fa-file-alt"></i>
+                    توضیحات:
+                </label>
+                <div class="custom-input-group">
+                    <input type="text" class="custom-form-control" name="description" value="خرید">
+                    <span class="custom-input-group-text">
+                        <i class="fas fa-edit"></i>
+                    </span>
+                </div>
+            </div>
+
+            <button type="submit" class="custom-btn-primary">
+                <i class="fas fa-paper-plane"></i>
+                پرداخت و نهایی کردن
+            </button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
