@@ -30,6 +30,8 @@ urlpatterns = [
     path('detailReserve/' , detailReserve , name="detailReserve"),
     path('detailUserResreve/' , detailUserResreve , name="detailUserResreve"),
     path('detailDoctor/<int:id>' , detailDoctor , name='detailDoctor'),
+
+    path('deleteCartView/<int:id>' , deleteCartView , name='deleteCartView'),
     path('cartView/' , cartView , name='cartView'),
 
     path('send_request/', request_payment, name='request'),

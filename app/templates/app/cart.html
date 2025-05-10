@@ -305,6 +305,12 @@
                 <span class="custom-reservation-label">آدرس:</span>
                 <span class="custom-reservation-value">{{ reserv.address }}</span>
             </div>
+            <div>
+                <form method="post" action="{% url 'app:deleteCartView' reserv.id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete">
+                </form>
+            </div>
         </div>
     </div>
     {% endfor %}

@@ -36,6 +36,7 @@ def contact (request):
 
         Contact.objects.create(name = name , phone = phone , 
                                email = email , text = text)
+        messages.success(request, 'پیام شما با موفقیت ارسال شد' , 'success')
         return render(request, 'app/home/index.html')
     return render(request , 'app/contact/contact.html')
 
@@ -90,7 +91,7 @@ def verify_login_phone(request):
                 verify = True
                 return redirect('app:post')
             else:
-                messages.error(request, 'کد وارد شده اشتباه است')
+                messages.error(request, 'کد وارد شده اشتباه است' , 'danger')
     else:
         form = CodePhoneForm()
     context = {
@@ -148,7 +149,7 @@ def verify_login_phone_doctor(request):
                 verify = True
                 return redirect('app:home')
             else:
-                messages.error(request, 'کد وارد شده اشتباه است')
+                messages.error(request, 'کد وارد شده اشتباه است' , 'danger')
     else:
         form = CodePhoneDoctorForm()
     context = {
@@ -297,6 +298,19 @@ def cartView(request):
 
 
 @login_required(login_url='/loginPhone/')
+def deleteCartView(request , id):
+    if request.user.is_Doctor == False:
+        if request.method == 'POST':
+            if Reserve.objects.filter(user = request.user.id , id = id ).exists():
+                Reserve.objects.filter(user = request.user.id , id = id ).delete()
+                return redirect('app:cartView')
+
+    else:
+        return redirect('app:home')
+
+
+
+@login_required(login_url='/loginPhone/')
 def detailReserve(request):
     if request.user.is_Doctor == True:
         accept = Accept.objects.filter(user_id = request.user.id).order_by('created_at')
@@ -365,10 +379,12 @@ def request_payment(request):
                     return redirect(url)
 
                 else:
-                    return HttpResponse(str(response['errors']))
+                    messages.error(request, f'{str(response["errors"])}' , 'danger')
+                    return redirect('app:cartView')
 
             else:
-                return HttpResponse("مشکلی پیش آمد.")
+                messages.error(request, 'مشکلی پیش آمد.' , 'danger')
+                return redirect('app:cartView')
         else:
             return redirect('app:cartView')
     return redirect('app:cartView')
@@ -397,19 +413,25 @@ def verify(request):
             if response['data']['code'] == 100:
                 # put your logic here
                 Reserve.objects.filter(user=request.user.id).update(paid = True)
-                return HttpResponse("خرید شما با موفقیت انجام شد.")
+                messages.success(request, 'خرید شما با موفقیت انجام شد.' , 'success')
+                return redirect('app:cartView')
 
             elif response['data']['code'] == 101:
-                return HttpResponse("این پرداخت قبلا انجام شده است.")
+                messages.error(request, 'این پرداخت قبلا انجام شده است.' , 'danger')
+                return redirect('app:cartView')
 
             else:
-                return HttpResponse("پرداخت شما ناموفق بود.")
+                messages.error(request, 'پرداخت شما ناموفق بود.' , 'danger')
+                return redirect('app:cartView')
 
         else:
-            return HttpResponse("پرداخت شما ناموفق بود.")
+            messages.error(request, 'پرداخت شما ناموفق بود.' , 'danger')
+            return redirect('app:cartView')
+            
 
     else:
-        return HttpResponse("پرداخت شما ناموفق بود.")
+        messages.error(request, 'پرداخت شما ناموفق بود.' , 'danger')
+        return redirect('app:cartView')
     
 
 
