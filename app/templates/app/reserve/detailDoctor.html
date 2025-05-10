@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <p>
+        {{  accept.user.phone }}
+    </p>
+    {% for profile in profile %}
+    <p>
+        {{ profile.first_name }}
+    </p>
+    <p>
+        {{ profile.last_name }}
+    </p>
+    <p>
+        <img src="{{ profile.photo.url }}" alt="" width="250" , height="250">
+    </p>
+    {% endfor %}
+</body>
+</html>

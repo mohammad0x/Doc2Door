@@ -239,9 +239,10 @@
 
                 <div class="confirm-section">
                     <form method="post"
-                          action="{% url 'app:reservationRequest' reserv.id %}"
-                          onsubmit="return handleConfirm(event, '{{ reserv.id }}')">
+                          action="{% url 'app:reservationRequest' reserv.id %}">
+                          <!-- onsubmit="return handleConfirm(event, '{{ reserv.id }}')"> -->
                         {% csrf_token %}
+                        <!-- <input type="submit" name="submit"> -->
                         <button type="submit"
                                 class="confirm-btn"
                                 id="btn-{{ reserv.id }}"

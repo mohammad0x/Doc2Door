@@ -27,6 +27,9 @@ urlpatterns = [
     path('reservationView/<int:id>' , reservationView , name='reservationView'),
     path('showReservation/' , showReservation , name="showReservation"),
     path('reservationRequest/<int:id>' , reservationRequest , name='reservationRequest'), 
+    path('detailReserve/' , detailReserve , name="detailReserve"),
+    path('detailUserResreve/' , detailUserResreve , name="detailUserResreve"),
+    path('detailDoctor/<int:id>' , detailDoctor , name='detailDoctor'),
     path('cartView/' , cartView , name='cartView'),
 
     path('send_request/', request_payment, name='request'),

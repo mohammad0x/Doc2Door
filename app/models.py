@@ -133,6 +133,7 @@ class Reserve(models.Model):
     insurance = models.CharField(max_length=100 , null=True,verbose_name="بیمه")
     paid = models.BooleanField(default=False,verbose_name="پرداخت")
     accept = models.BooleanField(default=False,verbose_name="قبول شدن")
+    location = models.CharField(max_length=200 ,verbose_name="مکان")
     created_at = models.DateTimeField(auto_now_add=True,verbose_name="زمان رزرو")
 
     def __str__(self):
@@ -161,6 +162,8 @@ class News(models.Model):
 class Accept(models.Model):
     reserve = models.ForeignKey(Reserve , on_delete=models.CASCADE , related_name = 'acceptReserve')
     user = models.ForeignKey(MyUser , on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True,verbose_name="زمان تایید")
+
 
 
 class Contact(models.Model):

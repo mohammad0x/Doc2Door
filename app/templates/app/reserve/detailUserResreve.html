@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for history in history %}
+    <p>
+        {{ history.address }}
+    </p>
+    <p>
+        {{ history.city }}
+    </p>
+    <p>
+        {{ history.plate }}
+    </p>
+    <p>
+        {{ history.name }}
+    </p>
+    <p>
+        {% if history.accept == True %} 
+        
+            <p>قبول شده</p>   
+            <a href="{% url  'app:detailDoctor' history.id %}">دیدن جزییات</a>     
+
+        {% endif %}
+
+        {% if history.accept == False %} 
+        
+            <p>قبول نشده</p>        
+        {% endif %}
+        
+    </p>
+    <p>
+        {% if history.paid == True %} پرداخت شده {% endif %}
+    </p>
+    <p>
+        {{ history.create_at }}
+    </p>
+    ********************************************
+    {% endfor %}
+</body>
+</html>

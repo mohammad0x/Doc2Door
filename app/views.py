@@ -183,19 +183,25 @@ def profile_view(request):
 
 
 def postView(request):
-    post = Post.objects.all().order_by('created_at')
-    context = {
-        'post': post
-    }
-    return render(request, 'app/post.html', context)
+    if request.user.is_Doctor == False:
+        post = Post.objects.all().order_by('created_at')
+        context = {
+            'post': post
+        } 
+        return render(request, 'app/post.html', context)
+    else:
+        return redirect('app:home')
 
 
 def singlePost(request, slug):
-    single = get_object_or_404(Post, slug=slug)
-    context = {
-        'single': single
-    }
-    return render(request, 'app/singlePost.html', context)
+    if request.user.is_Doctor == False:
+        single = get_object_or_404(Post, slug=slug)
+        context = {
+            'single': single
+        }
+        return render(request, 'app/singlePost.html', context)
+    else:
+        return redirect('app:home')
 
 def newsView(request):
     news = News.objects.all().order_by('created_at')
@@ -236,7 +242,7 @@ def reservationView(request , id):
         Reserve.objects.create(post_id = post , user_id = user , city = city , 
                                address = address , plate = plate , name = name , 
                                insurance = insurance , paid=False)
-        return redirect('app:home')
+        return redirect('app:cartView')
     
     reserve = Reserve.objects.filter(user = request.user.id)
     return render(request , 'app/reserve/reservation.html' , {'reserve':reserve})
@@ -245,11 +251,16 @@ def reservationView(request , id):
 @login_required(login_url='/loginPhone/')
 def showReservation(request):
     if request.user.is_Doctor == True:
-        reserv = Reserve.objects.filter(accept = False).order_by('-created_at')
-        context = {
-            'reserv':reserv
-        }
-        return render(request , 'app/reserve/show_reservation.html' , context)
+        profile = Profile.objects.get(user_id = request.user.id)
+        if profile.verify == True:
+            reserv = Reserve.objects.filter(accept = False).order_by('-created_at')
+            context = {
+                'reserv':reserv
+            }
+            return render(request , 'app/reserve/show_reservation.html' , context)
+        else:
+            return redirect('app:profile')
+
     else:
         return redirect('app:postView')
 
@@ -262,24 +273,67 @@ def reservationRequest(request , id):
             user = request.user.id
             if Accept.objects.create(reserve_id = reserve , user_id = user):
                 Reserve.objects.filter(id = reserve).update(accept = True)
-            return HttpResponse('قبول شد')
+            return redirect('app:detailReserve')
     else:
         return redirect('app:postView')
 
 
 @login_required(login_url='/loginPhone/')
 def cartView(request):
-    global pricee
-    pricee = 0
-    reserve = Reserve.objects.filter(user = request.user.id , paid = False)
-    if Reserve.objects.filter(user = request.user.id , paid = False).exists():
-        for reserves in reserve :
-            pricee += int(reserves.post.price)
-    context  = {
-        'reserve':reserve,
-        'price':pricee
-    }
-    return render(request , 'app/cart.html' , context)
+    if request.user.is_Doctor == False:
+        global pricee
+        pricee = 0
+        reserve = Reserve.objects.filter(user = request.user.id , paid = False).order_by('-created_at')
+        if Reserve.objects.filter(user = request.user.id , paid = False).exists():
+            for reserves in reserve :
+                pricee += int(reserves.post.price)
+        context  = {
+            'reserve':reserve,
+            'price':pricee
+        }
+        return render(request , 'app/cart.html' , context)
+    else:
+        return redirect('app:home')
+
+
+@login_required(login_url='/loginPhone/')
+def detailReserve(request):
+    if request.user.is_Doctor == True:
+        accept = Accept.objects.filter(user_id = request.user.id).order_by('created_at')
+        context = {
+            'accept':accept
+        }
+        print(context)
+        return render(request , 'app/reserve/detailReserve.html' , context)
+    else:
+        return redirect('app:home')
+
+
+@login_required(login_url='/loginPhone/')
+def detailUserResreve(request):
+    if request.user.is_Doctor == False:
+        history = Reserve.objects.filter(user = request.user.id , paid = True)
+        context = {
+            'history':history
+        }
+        return render(request , 'app/reserve/detailUserResreve.html' , context)
+    else:
+        return redirect('app:home')
+
+
+
+@login_required(login_url='/loginPhone/')
+def detailDoctor(request , id):
+    if request.user.is_Doctor == False:
+        accept = get_object_or_404(Accept , reserve_id = id )
+        profile = Profile.objects.filter(user_id = accept.user.id )
+        context = {
+            'accept':accept, 
+            'profile':profile , 
+        }
+        return render(request , 'app/reserve/detailDoctor.html' , context)
+    else:
+        return redirect('app:home')
 
 
 
